@@ -1,0 +1,182 @@
+---
+---
+
+<div class="prize-reveal" data-prize-reveal hidden aria-live="polite">
+  <div class="prize-reveal__card" data-prize-card>
+    <span class="prize-reveal__shine" aria-hidden="true"></span>
+
+    <header class="prize-reveal__head">
+      <span class="prize-reveal__tier" data-prize-tier>Premio</span>
+      <span class="prize-reveal__invest" data-prize-meta></span>
+    </header>
+
+    <figure class="prize-reveal__figure">
+      <span class="prize-reveal__glow" aria-hidden="true"></span>
+      <img
+        class="prize-reveal__image"
+        data-prize-image
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E"
+        alt=""
+        width="132"
+        height="132"
+      />
+      <span class="prize-reveal__emoji" data-prize-emoji aria-hidden="true"></span>
+    </figure>
+
+    <div class="prize-reveal__info">
+      <p class="prize-reveal__name" data-prize-name></p>
+      <p class="prize-reveal__message" data-prize-message></p>
+      <p class="prize-reveal__stock" data-prize-stock></p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .prize-reveal {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+  }
+  .prize-reveal[hidden] { display: none; }
+
+  .prize-reveal__card {
+    --prize-color: #eabf4e;
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 330px;
+    min-width: 0;
+    padding: 16px 18px 18px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--prize-color) 22%, transparent) 0%, transparent 62%),
+      linear-gradient(170deg, rgb(16 52 32 / 0.95) 0%, rgb(7 26 18 / 0.97) 55%, rgb(30 22 12 / 0.97) 100%);
+    border: 2px solid color-mix(in srgb, var(--prize-color) 60%, transparent);
+    box-shadow:
+      inset 0 2px 0 0 rgb(233 245 236 / 0.14),
+      0 0 0 8px color-mix(in srgb, var(--prize-color) 10%, transparent),
+      0 30px 70px -26px rgb(0 0 0 / 0.95),
+      0 0 110px -24px var(--prize-color);
+    text-align: center;
+    animation: hm-pop-in 520ms cubic-bezier(0.22, 1.32, 0.36, 1) both;
+  }
+
+  .prize-reveal__shine {
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgb(253 245 218 / 0.3),
+      transparent
+    );
+    transform: skewX(-16deg);
+    animation: shine-sweep 1.5s cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+    pointer-events: none;
+  }
+
+  .prize-reveal__head {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+  }
+  .prize-reveal__tier {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--prize-color) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--prize-color) 45%, transparent);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--prize-color);
+  }
+  .prize-reveal__invest {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--color-hm-ink-300);
+  }
+
+  .prize-reveal__figure {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(104px, 26vw, 132px);
+    aspect-ratio: 1;
+    margin: 0;
+  }
+  .prize-reveal__glow {
+    position: absolute;
+    inset: -22%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--prize-color) 45%, transparent) 0%,
+      transparent 68%
+    );
+    animation: hm-pulse-glow 2s ease-in-out infinite;
+  }
+  .prize-reveal__image {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 22px rgb(0 0 0 / 0.7));
+    animation: hm-pop-in 460ms cubic-bezier(0.22, 1.4, 0.36, 1) 120ms both;
+  }
+  .prize-reveal__image:not([src]),
+  .prize-reveal__image[src=''] { display: none; }
+  .prize-reveal__emoji {
+    position: absolute;
+    z-index: 2;
+    right: -4px;
+    bottom: -4px;
+    font-size: 30px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.8));
+  }
+
+  .prize-reveal__info { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3px; min-width: 0; }
+  .prize-reveal__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(16px, 3.4vw, 21px);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-hm-gold-100);
+    text-wrap: balance;
+  }
+  .prize-reveal__message {
+    margin: 0;
+    font-size: 12.5px;
+    font-style: italic;
+    color: var(--color-hm-ink-200);
+  }
+  .prize-reveal__stock {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-400);
+  }
+
+  @keyframes shine-sweep {
+    0% { left: -60%; }
+    100% { left: 130%; }
+  }
+</style>

@@ -1,20 +1,16 @@
 ---
-import { getBrissaAsset } from '../../lib/brissa';
-import type { BrissaState } from '../../lib/types';
+import type { BrissaState } from '../../lib/rifa';
 
 export interface Props {
-  /** Estado emocional/animado de Brissa. */
   state?: BrissaState;
-  /** Asset oficial opcional. Si no se pasa, se respeta PUBLIC_BRISSA_ASSET. */
   src?: string | null;
-  /** Ancho en píxeles del escenario (la altura se calcula 1:1). */
   size?: number;
   class?: string;
 }
 
 const {
   state = 'idle',
-  src = getBrissaAsset(),
+  src = null,
   size = 520,
   class: className = '',
 } = Astro.props;

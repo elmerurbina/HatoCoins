@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "HatoCoins — Alimenta a Brissa. Experiencia interactiva de evento para HatoMaster.",
+  "description": "HatoCoins · Rifa de Price Discovery — Juego de premios interactivo.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -11,10 +11,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "typecheck": "tsc --noEmit",
-    "test": "esbuild tests/logic.test.ts --bundle --format=esm --platform=node --outfile=node_modules/.cache/hatomaster-test.mjs --log-level=error && node node_modules/.cache/hatomaster-test.mjs"
+    "test": "echo \"No tests for Rifa\""
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.117.2",
     "astro": "^5.14.1"
   },
   "devDependencies": {

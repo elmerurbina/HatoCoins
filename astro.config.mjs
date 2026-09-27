@@ -14,6 +14,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    envPrefix: ['VITE_', 'PUBLIC_'],
     build: {
       // Keep the JS payload tiny for kiosk TVs.
       assetsInlineLimit: 8192,

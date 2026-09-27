@@ -1,0 +1,320 @@
+---
+---
+
+<section class="invest" data-invest-panel aria-label="Monto de inversión">
+  <div class="invest__head">
+    <h2 class="invest__title">INVERSIÓN</h2>
+    <span class="invest__stepper" data-stepper aria-hidden="true">
+      <i class="is-active"></i><i></i><i></i>
+    </span>
+  </div>
+
+  <p class="invest__subtitle">Cuanto mayor, mayor tu probabilidad de premio</p>
+
+  <div class="invest__field">
+    <span class="invest__prefix" aria-hidden="true">🪙</span>
+    <input
+      id="invest-amount"
+      class="invest__input"
+      type="text"
+      inputmode="numeric"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="1000"
+      aria-label="Monto de inversión en HatoCoins"
+    />
+    <span class="invest__suffix" aria-hidden="true">HM</span>
+  </div>
+
+  <div class="invest__presets" role="group" aria-label="Montos sugeridos">
+    <button type="button" class="invest__preset" data-preset="500">500</button>
+    <button type="button" class="invest__preset" data-preset="1000">1K</button>
+    <button type="button" class="invest__preset" data-preset="5000">5K</button>
+    <button type="button" class="invest__preset" data-preset="10000">10K</button>
+    <button type="button" class="invest__preset" data-preset="15000">15K</button>
+    <button type="button" class="invest__preset" data-preset="25000">25K</button>
+    <button type="button" class="invest__preset" data-preset="50000">50K</button>
+    <button type="button" class="invest__preset" data-preset="100000">100K</button>
+  </div>
+
+  <div class="invest__tiers">
+    <p class="invest__label">Niveles de premio</p>
+    <div class="invest__tiers-list">
+      <span class="tier-badge" data-tier="sticker" aria-disabled="false">
+        <span class="tier-badge__emoji">📌</span> Sticker
+      </span>
+      <span class="tier-badge" data-tier="pamphlet" aria-disabled="false">
+        <span class="tier-badge__emoji">📄</span> Folleto
+      </span>
+      <span class="tier-badge" data-tier="certificate" data-tier-required="10000" aria-disabled="true">
+        <span class="tier-badge__emoji">🎖️</span> Cert. <small>&gt;10K</small>
+      </span>
+      <span class="tier-badge" data-tier="llavero" data-tier-required="25000" aria-disabled="true">
+        <span class="tier-badge__emoji">🔑</span> Llavero <small>&gt;25K</small>
+      </span>
+    </div>
+  </div>
+
+  <div class="odds" data-odds-list>
+    <p class="odds__hint">Ingresa un monto para ver tus probabilidades</p>
+  </div>
+
+  <div class="invest__preview">
+    <p class="invest__preview-label">Tu inversión</p>
+    <p class="invest__preview-value" data-invest-preview>0 HM</p>
+  </div>
+</section>
+
+<style>
+  .invest {
+    display: grid;
+    /* `minmax(0, 1fr)` y no `auto`: sin esto la columna mide
+       max-content y los hijos (título, campo, presets) se salen del panel
+       en pantallas estrechas. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px 16px;
+    background:
+      linear-gradient(168deg, rgb(24 42 36 / 0.92) 0%, rgb(11 35 25 / 0.88) 48%, rgb(6 20 15 / 0.95) 100%);
+    border: 1px solid rgb(139 161 147 / 0.16);
+    border-radius: var(--radius-hud);
+    box-shadow:
+      0 2px 0 0 rgb(4 18 13 / 0.9),
+      0 18px 40px -18px rgb(0 0 0 / 0.85),
+      inset 0 1px 0 0 rgb(233 245 236 / 0.06);
+    backdrop-filter: blur(8px);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .invest.is-shaking { animation: hm-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+
+  .invest__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .invest__title {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(15px, 2.4vw, 20px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-hm-green-50);
+  }
+
+  .invest__stepper { display: inline-flex; gap: 6px; flex: none; }
+  .invest__stepper i {
+    width: 22px; height: 5px; border-radius: 999px;
+    background: rgb(139 161 147 / 0.22);
+    transition: background 240ms ease, box-shadow 240ms ease;
+  }
+  .invest__stepper i.is-active {
+    background: linear-gradient(90deg, #d6a029, #fbe9b4);
+    box-shadow: 0 0 12px rgb(234 191 78 / 0.85);
+  }
+
+  .invest__subtitle {
+    margin: 0;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--color-hm-ink-300);
+  }
+
+  .invest__field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #0a1411 0%, #071310 100%);
+    border: 2px solid rgb(139 161 147 / 0.24);
+    transition: border-color 180ms ease, box-shadow 220ms ease;
+  }
+  .invest__field:focus-within {
+    border-color: rgb(234 191 78 / 0.85);
+    box-shadow: inset 0 3px 10px 0 rgb(0 0 0 / 0.7), 0 0 0 4px rgb(216 160 41 / 0.16);
+  }
+
+  .invest__prefix { font-size: 18px; opacity: 0.9; flex: none; }
+
+  .invest__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 6px 0;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(24px, 5vw, 32px);
+    color: var(--color-hm-gold-100);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+  .invest__input::placeholder { color: rgb(139 161 147 / 0.35); }
+  .invest__input:focus { outline: none; }
+  .invest__input.is-invalid {
+    color: #ff9d8a;
+    animation: hm-shake 380ms ease;
+  }
+
+  .invest__suffix {
+    flex: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    color: var(--color-hm-gold-500);
+  }
+
+  /* ── Presets ── */
+  .invest__presets {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    min-width: 0;
+  }
+  .invest__preset {
+    padding: 7px 4px;
+    border-radius: 10px;
+    background: rgb(10 20 17 / 0.7);
+    border: 1px solid rgb(139 161 147 / 0.18);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-hm-ink-200);
+    transition: all 160ms cubic-bezier(0.3, 0, 0.2, 1);
+  }
+  .invest__preset:hover {
+    color: var(--color-hm-gold-200);
+    border-color: rgb(234 191 78 / 0.5);
+    background: rgb(26 62 42 / 0.8);
+    transform: translateY(-2px);
+  }
+  .invest__preset:active { transform: translateY(1px) scale(0.97); }
+
+  /* ── Niveles ── */
+  .invest__tiers { display: grid; grid-template-columns: minmax(0, 1fr); gap: 5px; }
+  .invest__label {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-400);
+  }
+  .invest__tiers-list { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  .tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgb(10 20 17 / 0.6);
+    border: 1px solid rgb(139 161 147 / 0.15);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-hm-ink-300);
+    opacity: 0.5;
+    filter: saturate(0.3);
+    transition: all 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tier-badge small { font-size: 8.5px; color: var(--color-hm-ink-500); }
+  .tier-badge.unlocked {
+    opacity: 1;
+    filter: none;
+    color: var(--color-hm-gold-100);
+    border-color: rgb(234 191 78 / 0.55);
+    background: rgb(26 62 42 / 0.7);
+    box-shadow: 0 0 14px -4px rgb(234 191 78 / 0.8);
+  }
+
+  /* ── Probabilidades ── */
+  .odds {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: rgb(4 12 9 / 0.55);
+    border: 1px solid rgb(139 161 147 / 0.12);
+  }
+  .odds__hint {
+    margin: 0;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--color-hm-ink-400);
+    text-align: center;
+  }
+  .odds__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 58px 38px;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    animation: hm-rise 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .odds__name {
+    font-weight: 700;
+    color: var(--color-hm-ink-200);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .odds__bar {
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(139 161 147 / 0.14);
+    overflow: hidden;
+  }
+  .odds__bar i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--prize-color);
+    box-shadow: 0 0 10px -1px var(--prize-color);
+    transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .odds__pct {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-align: right;
+    color: var(--prize-color);
+  }
+
+  .invest__preview {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 7px;
+    border-top: 1px solid rgb(139 161 147 / 0.15);
+  }
+  .invest__preview-label {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-400);
+  }
+  .invest__preview-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(18px, 4vw, 26px);
+    color: var(--color-hm-gold-300);
+    text-shadow: 0 0 18px rgb(216 160 41 / 0.45);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

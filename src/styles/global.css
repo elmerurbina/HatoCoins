@@ -1,13 +1,10 @@
 @import 'tailwindcss';
 
 /* ═══════════════════════════════════════════════════════════════════════
-   HATOMASTER · DESIGN TOKENS
-   Ranch + videojuego + IA + fintech. Nunca #000000 ni #FFFFFF puros.
-   Greens = ganadería / alimento · Earth = finca / suelo
-   Blue = tecnología / datos · Purple = Brissa + IA
-   ═══════════════════════════════════════════════════════════════════════ */
+    HATOMASTER · RIFA · DESIGN TOKENS
+    ═══════════════════════════════════════════════════════════════════════ */
 @theme {
-  /* ── Verdes: ganadería, naturaleza, crecimiento, alimentación ── */
+  /* ── Verdes: ganadería, naturaleza ── */
   --color-hm-green-950: #04120d;
   --color-hm-green-900: #071a12;
   --color-hm-green-800: #0b2419;
@@ -20,7 +17,7 @@
   --color-hm-green-100: #c2e6c8;
   --color-hm-green-50: #e8f5ea;
 
-  /* ── Tierra / beige: finca, suelo, tradición ── */
+  /* ── Tierra / beige ── */
   --color-hm-earth-900: #2a1d10;
   --color-hm-earth-800: #3d2a17;
   --color-hm-earth-700: #54381f;
@@ -31,7 +28,7 @@
   --color-hm-earth-200: #dcc094;
   --color-hm-earth-100: #efe0c7;
 
-  /* ── Azules: tecnología, datos, precisión ── */
+  /* ── Azules ── */
   --color-hm-blue-900: #071723;
   --color-hm-blue-800: #0b2334;
   --color-hm-blue-700: #0f3248;
@@ -42,7 +39,7 @@
   --color-hm-blue-200: #8ec9dd;
   --color-hm-blue-100: #c9e6ef;
 
-  /* ── Morado: Brissa + Inteligencia Artificial (acento) ── */
+  /* ── Morado: Brissa + IA ── */
   --color-hm-purple-900: #180f2b;
   --color-hm-purple-800: #241640;
   --color-hm-purple-700: #33205a;
@@ -53,7 +50,7 @@
   --color-hm-purple-200: #c9b2f0;
   --color-hm-purple-100: #e7dcfa;
 
-  /* ── Dorado HatoCoin: la moneda del juego ── */
+  /* ── Dorado HatoCoin ── */
   --color-hm-gold-900: #4a3008;
   --color-hm-gold-800: #6b4710;
   --color-hm-gold-700: #8f6114;
@@ -64,7 +61,7 @@
   --color-hm-gold-200: #fbe9b4;
   --color-hm-gold-100: #fdf5da;
 
-  /* ── Neutros cálidos / verdosos ── */
+  /* ── Neutros ── */
   --color-hm-ink-950: #060d0b;
   --color-hm-ink-900: #0a1411;
   --color-hm-ink-800: #101d19;
@@ -77,116 +74,115 @@
   --color-hm-ink-100: #dde8e0;
   --color-hm-ink-50: #f0f6f1;
 
-  /* ── Alias semánticos de marca ── */
+  /* ── Alias ── */
   --color-hatomaster: var(--color-hm-green-400);
-  --color-hatomaster-dark: var(--color-hm-green-900);
-  --color-hatomaster-light: var(--color-hm-green-200);
   --color-earth: var(--color-hm-earth-500);
-  --color-earth-light: var(--color-hm-earth-200);
   --color-tech: var(--color-hm-blue-400);
-  --color-tech-dark: var(--color-hm-blue-800);
   --color-ai: var(--color-hm-purple-400);
   --color-coin: var(--color-hm-gold-400);
 
-  /* ── Tipografía del HUD (stack de sistema: cero descargas, 100% offline) ── */
+  /* ── Tipografía ── */
   --font-display:
-    'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue',
-    Arial, sans-serif;
+    'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --font-body:
-    'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial,
-    sans-serif;
+    'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'Cascadia Mono', 'Consolas', 'SF Mono', 'Roboto Mono', ui-monospace, monospace;
 
-  /* ── Radios de panel (esquinas de "cápsula de juego") ── */
+  /* ── Radios ── */
   --radius-hud: 1.25rem;
 
-  /* ── Sombras de profundidad ── */
-  --shadow-hud:
-    0 2px 0 0 rgb(4 18 13 / 0.9), 0 18px 40px -18px rgb(0 0 0 / 0.85),
+  /* ── Sombras ── */
+  --shadow-hud: 0 2px 0 0 rgb(4 18 13 / 0.85), 0 18px 40px -18px rgb(0 0 0 / 0.85),
     inset 0 1px 0 0 rgb(233 245 236 / 0.06);
-  --shadow-lift: 0 24px 60px -22px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(139 161 147 / 0.14);
-  --shadow-coin: 0 0 0 1px rgb(250 233 180 / 0.5), 0 6px 18px -6px rgb(180 120 20 / 0.75);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   BASE
-   ═══════════════════════════════════════════════════════════════════════ */
+    BASE
+    ═══════════════════════════════════════════════════════════════════════ */
 @layer base {
-  * {
-    -webkit-tap-highlight-color: transparent;
+  * { -webkit-tap-highlight-color: transparent; }
+
+  html {
+    height: 100%;
+    /* `clip` y no `hidden`: `overflow-x: hidden` convierte al <html> en
+       contenedor de scroll, y en iOS Safari eso rompe el desplazamiento
+       vertical de la página. `clip` recorta sin crear scroller. */
+    overflow-x: clip;
   }
 
-  html,
-  body {
-    height: auto;
+  html, body {
     min-height: 100%;
     margin: 0;
+    max-width: 100%;
     background: var(--color-hm-ink-950);
     color: var(--color-hm-ink-100);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    overscroll-behavior: none;
+  }
+
+  body { overflow-x: clip; }
+
+  /* Todo hijo flexible/grid puede encogerse: evita desbordes */
+  img, svg, video, canvas {
+    max-width: 100%;
+    height: auto;
   }
 
   button {
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
-    border: 0;
-    background: none;
+    font: inherit; color: inherit; cursor: pointer;
+    border: 0; background: none;
   }
-
-  input {
-    font: inherit;
-    color: inherit;
-  }
+  input { font: inherit; color: inherit; }
 
   :focus-visible {
     outline: 3px solid var(--color-hm-gold-400);
     outline-offset: 3px;
   }
-
-  /* El HUD es puramente decorativo para lectores de pantalla nueva. */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   ESCENARIO 16:9 — 1920 × 1080 escalado para caber en cualquier pantalla
-   ═══════════════════════════════════════════════════════════════════════ */
+    ESCENARIO
+    Antes era `aspect-ratio: 16/9` con altura fija: en móvil el contenido
+    ya no cabía y `overflow: hidden` lo recortaba. Ahora la altura la
+    decide el contenido y sólo se estira como mínimo a una pantalla.
+    ═══════════════════════════════════════════════════════════════════════ */
 @utility stage-frame {
   position: relative;
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
+  width: 100%;
+  max-width: 100%;
+  display: block;
   background:
     radial-gradient(120% 90% at 50% 8%, #0d2018 0%, #081310 42%, #050c09 100%);
-  padding: 20px;
+  padding: clamp(8px, 1.6vw, 20px);
   box-sizing: border-box;
+  /* clip en X, visible en Y: la decoracion se recorta pero el contenido
+     largo sigue fluyendo y la pagina se desplaza como una web normal. */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
-  .stage {
-    position: relative;
-    display: grid;
-    /* 88 header · escena flexible · 400 consola de inversión */
-    grid-template-rows: 88px minmax(0, 1fr) auto;
-    width: 100%;
-    max-width: 1920px;
-    aspect-ratio: 16 / 9;
-    flex: none;
-    transform-origin: center top;
-    isolation: isolate;
-    overflow: hidden;
+.stage {
+  position: relative;
+  display: grid;
+  /* Filas en flujo natural (nada de `1fr`): un `minmax(0, 1fr)` obliga a la
+     fila central a encogerse por debajo de su contenido y, con el `clip` de
+     abajo, ese contenido queda recortado e inalcanzable. Ahora la caja crece
+     con el contenido y la página se desplaza. */
+  grid-template-rows: auto auto auto auto auto;
+  align-content: start;
+  justify-items: center;
+  gap: clamp(10px, 1.6vh, 18px);
+  width: 100%;
+  max-width: 1920px;
+  min-width: 0;
+  min-height: calc(100dvh - clamp(16px, 3.2vw, 40px));
+  margin: 0 auto;
+  isolation: isolate;
+  /* Recorte sólo lateral: el eje vertical queda libre para que el documento
+     crezca y se pueda hacer scroll. */
+  overflow-x: clip;
+  overflow-y: visible;
+  border-radius: clamp(10px, 1.4vw, 18px);
   background:
     radial-gradient(90% 70% at 50% 0%, rgb(29 99 57 / 0.22) 0%, transparent 60%),
     radial-gradient(70% 60% at 12% 100%, rgb(26 93 125 / 0.16) 0%, transparent 65%),
@@ -197,54 +193,20 @@
   cursor: default;
 }
 
-/* Textura sutil de "ranch" + grano de película para dar profundidad. */
-.stage::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.5;
-  background-image:
-    repeating-linear-gradient(
-      115deg,
-      rgb(216 160 41 / 0.028) 0px,
-      rgb(216 160 41 / 0.028) 1px,
-      transparent 1px,
-      transparent 7px
-    ),
-    repeating-linear-gradient(
-      25deg,
-      rgb(42 127 163 / 0.022) 0px,
-      rgb(42 127 163 / 0.022) 1px,
-      transparent 1px,
-      transparent 11px
-    );
-  mix-blend-mode: screen;
-}
-
-/* Viñeta de TV. */
+/* Viñeta de TV */
 .stage::after {
   content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 60;
+  position: absolute; inset: 0; pointer-events: none; z-index: 60;
   background:
     radial-gradient(130% 100% at 50% 45%, transparent 52%, rgb(4 12 9 / 0.62) 100%),
     linear-gradient(0deg, rgb(4 12 9 / 0.4) 0%, transparent 22%);
 }
 
-/* Sólo las piezas en flujo llevan z-index; las capas absolutas
-   (monedas, confeti, modales) ya definen el suyo. */
-.stage > header,
-.stage > .scene,
-.stage > .console {
-  position: relative;
-  z-index: 2;
+.stage > header, .stage > .scene, .stage > .stats-bar, .stage > .instructions {
+  position: relative; z-index: 2;
 }
 
-/* Rejilla técnica (HUD de videojuego, muy tenue). */
+/* Rejilla técnica */
 .hud-grid {
   background-image:
     linear-gradient(rgb(139 161 147 / 0.055) 1px, transparent 1px),
@@ -253,676 +215,169 @@
   mask-image: radial-gradient(70% 60% at 50% 40%, #000 0%, transparent 85%);
 }
 
-/* Barras "cinemáticas" que enmarcan el escenario como un juego. */
+/* Barras cinemáticas */
 .cine-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 0;
-  z-index: 58;
+  position: absolute; left: 0; right: 0; height: 0; z-index: 58;
   background: linear-gradient(180deg, #050d0a, rgb(5 13 10 / 0.92));
   transition: height 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.cine-bar--top {
-  top: 0;
-  border-bottom: 1px solid rgb(216 160 41 / 0.18);
-}
-.cine-bar--bottom {
-  bottom: 0;
-  border-top: 1px solid rgb(216 160 41 / 0.18);
-}
-.stage.is-cinematic .cine-bar {
-  height: 108px;
-}
+.cine-bar--top { top: 0; border-bottom: 1px solid rgb(216 160 41 / 0.18); }
+.cine-bar--bottom { bottom: 0; border-top: 1px solid rgb(216 160 41 / 0.18); }
+.stage[data-phase='spinning'] .cine-bar { height: clamp(28px, 7vh, 92px); }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   PANELES / HUD
-   ═══════════════════════════════════════════════════════════════════════ */
+    HUD / PANEL
+    ═══════════════════════════════════════════════════════════════════════ */
 .hud-panel {
   position: relative;
   border-radius: var(--radius-hud);
   background:
-    linear-gradient(
-      168deg,
-      rgb(24 42 36 / 0.92) 0%,
-      rgb(11 35 24 / 0.86) 46%,
-      rgb(6 20 15 / 0.94) 100%
-    );
+    linear-gradient(168deg, rgb(24 42 36 / 0.92) 0%, rgb(11 35 24 / 0.86) 46%, rgb(6 20 15 / 0.94) 100%);
   border: 1px solid rgb(139 161 147 / 0.16);
   box-shadow: var(--shadow-hud);
   backdrop-filter: blur(6px);
 }
 
-.hud-panel--tech {
-  background:
-    linear-gradient(
-      168deg,
-      rgb(15 50 72 / 0.9) 0%,
-      rgb(9 30 44 / 0.88) 48%,
-      rgb(6 18 27 / 0.94) 100%
-    );
-  border-color: rgb(42 127 163 / 0.26);
-}
-
-.hud-panel--earth {
-  background:
-    linear-gradient(
-      168deg,
-      rgb(84 56 31 / 0.78) 0%,
-      rgb(42 29 16 / 0.9) 52%,
-      rgb(23 15 9 / 0.95) 100%
-    );
-  border-color: rgb(168 127 76 / 0.28);
-}
-
-/* Esquinas de "cápsula" — lenguaje de interfaz de videojuego. */
-.hud-corners::before,
-.hud-corners::after {
+.hud-corners::before, .hud-corners::after {
   content: '';
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  pointer-events: none;
-  border-color: rgb(216 160 41 / 0.55);
-  border-style: solid;
-  border-width: 0;
+  position: absolute; width: 26px; height: 26px;
+  pointer-events: none; border-color: rgb(216 160 41 / 0.55); border-style: solid; border-width: 0;
 }
-.hud-corners::before {
-  top: 10px;
-  left: 10px;
-  border-top-width: 2px;
-  border-left-width: 2px;
-  border-top-left-radius: 8px;
-}
-.hud-corners::after {
-  bottom: 10px;
-  right: 10px;
-  border-bottom-width: 2px;
-  border-right-width: 2px;
-  border-bottom-right-radius: 8px;
-}
+.hud-corners::before { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; border-top-left-radius: 8px; }
+.hud-corners::after { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; border-bottom-right-radius: 8px; }
 
 .hud-label {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-hm-ink-300);
+  font-family: var(--font-display); font-weight: 700; font-size: 15px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-hm-ink-300);
 }
-
 .hud-value {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums;
   color: var(--color-hm-green-50);
 }
 
-.coin-text {
-  background: linear-gradient(
-    178deg,
-    var(--color-hm-gold-200) 0%,
-    var(--color-hm-gold-400) 42%,
-    var(--color-hm-gold-600) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 34px rgb(216 160 41 / 0.28);
-}
-
-/* Brillo superior tipo "metal martillado" en el perimeter. */
-.metal-edge {
-  box-shadow:
-    inset 0 1px 0 0 rgb(251 233 180 / 0.28),
-    inset 0 -1px 0 0 rgb(74 48 8 / 0.5);
-}
-
 /* ═══════════════════════════════════════════════════════════════════════
-   TEXTO DE JUEGO
-   ═══════════════════════════════════════════════════════════════════════ */
-.title-game {
-  font-family: var(--font-display);
-  font-weight: 900;
-  text-transform: uppercase;
-  line-height: 0.92;
-  letter-spacing: 0.02em;
-}
-
-.kicker {
-  font-family: var(--font-display);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   ANIMACIONES
-   ═══════════════════════════════════════════════════════════════════════ */
+    ANIMACIONES
+    ═══════════════════════════════════════════════════════════════════════ */
 @keyframes hm-float-in {
-  0% {
-    opacity: 0;
-    transform: translateY(26px) scale(0.94);
-    filter: blur(6px);
-  }
-  60% {
-    opacity: 1;
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  0% { opacity: 0; transform: translateY(26px) scale(0.94); filter: blur(6px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 @keyframes hm-pop-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.55);
-    filter: blur(8px);
-  }
-  55% {
-    opacity: 1;
-    transform: scale(1.08);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0% { opacity: 0; transform: scale(0.55); filter: blur(8px); }
+  55% { opacity: 1; transform: scale(1.08); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); }
 }
-
 @keyframes hm-badge-in {
-  0% {
-    opacity: 0;
-    transform: translate(0, 22px) scale(0.6) rotate(-8deg);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(0, -8px) scale(1.14) rotate(2deg);
-  }
-  72% {
-    transform: translate(0, 0) scale(0.98) rotate(0deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(0deg);
-  }
+  0% { opacity: 0; transform: translate(0, 22px) scale(0.6) rotate(-8deg); }
+  50% { opacity: 1; transform: translate(0, -8px) scale(1.14) rotate(2deg); }
+  72% { transform: translate(0, 0) scale(0.98) rotate(0deg); }
+  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
 }
-
 @keyframes hm-ring {
-  0% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(0.3);
-    border-width: 14px;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5);
-    border-width: 1px;
-  }
+  0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.3); border-width: 14px; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); border-width: 1px; }
 }
-
 @keyframes hm-shake {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  20% {
-    transform: translate3d(-4px, 2px, 0);
-  }
-  40% {
-    transform: translate3d(4px, -2px, 0);
-  }
-  60% {
-    transform: translate3d(-3px, -1px, 0);
-  }
-  80% {
-    transform: translate3d(2px, 1px, 0);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-4px, 2px, 0); }
+  40% { transform: translate3d(4px, -2px, 0); }
+  60% { transform: translate3d(-3px, -1px, 0); }
+  80% { transform: translate3d(2px, 1px, 0); }
 }
-
 @keyframes hm-pulse-glow {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 6px rgb(216 160 41 / 0.35));
-  }
-  50% {
-    filter: drop-shadow(0 0 22px rgb(216 160 41 / 0.75));
-  }
+  0%, 100% { filter: drop-shadow(0 0 6px rgb(216 160 41 / 0.35)); }
+  50% { filter: drop-shadow(0 0 22px rgb(216 160 41 / 0.75)); }
 }
-
 @keyframes hm-blink {
-  0%,
-  92%,
-  100% {
-    transform: scaleY(1);
-  }
-  94%,
-  97% {
-    transform: scaleY(0.08);
-  }
+  0%, 92%, 100% { transform: scaleY(1); }
+  94%, 97% { transform: scaleY(0.08); }
 }
-
 @keyframes hm-sheen {
-  0% {
-    transform: translateX(-120%) skewX(-18deg);
-  }
-  60%,
-  100% {
-    transform: translateX(240%) skewX(-18deg);
-  }
+  0% { transform: translateX(-120%) skewX(-18deg); }
+  60%, 100% { transform: translateX(240%) skewX(-18deg); }
 }
-
 @keyframes hm-wag {
-  0%,
-  100% {
-    transform: rotate(-11deg);
-  }
-  50% {
-    transform: rotate(13deg);
-  }
+  0%, 100% { transform: rotate(-11deg); }
+  50% { transform: rotate(13deg); }
 }
-
 @keyframes hm-bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-9px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
 }
-
 @keyframes hm-breathe {
-  0%,
-  100% {
-    transform: scale(1, 1);
-  }
-  50% {
-    transform: scale(1.014, 0.99);
-  }
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.014, 0.99); }
 }
-
 @keyframes hm-hop {
-  0% {
-    transform: translateY(0) scale(1, 1);
-  }
-  18% {
-    transform: translateY(4px) scale(1.06, 0.93);
-  }
-  52% {
-    transform: translateY(-30px) scale(0.95, 1.08);
-  }
-  78% {
-    transform: translateY(2px) scale(1.05, 0.95);
-  }
-  100% {
-    transform: translateY(0) scale(1, 1);
-  }
+  0% { transform: translateY(0) scale(1, 1); }
+  18% { transform: translateY(4px) scale(1.06, 0.93); }
+  52% { transform: translateY(-30px) scale(0.95, 1.08); }
+  78% { transform: translateY(2px) scale(1.05, 0.95); }
+  100% { transform: translateY(0) scale(1, 1); }
 }
-
 @keyframes hm-ear-flick {
-  0%,
-  88%,
-  100% {
-    transform: rotate(0deg);
-  }
-  92% {
-    transform: rotate(-16deg);
-  }
-  96% {
-    transform: rotate(9deg);
-  }
+  0%, 88%, 100% { transform: rotate(0deg); }
+  92% { transform: rotate(-16deg); }
+  96% { transform: rotate(9deg); }
 }
-
 @keyframes hm-head-tilt {
-  0% {
-    transform: rotate(0deg) translateY(0);
-  }
-  100% {
-    transform: rotate(7deg) translateY(16px);
-  }
+  0% { transform: rotate(0deg) translateY(0); }
+  100% { transform: rotate(7deg) translateY(16px); }
 }
-
 @keyframes hm-toast-in {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 26px) scale(0.86);
-  }
-  45% {
-    opacity: 1;
-    transform: translate(-50%, -6px) scale(1.03);
-  }
-  70% {
-    transform: translate(-50%, 0) scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1);
-  }
+  0% { opacity: 0; transform: translate(-50%, 26px) scale(0.86); }
+  45% { opacity: 1; transform: translate(-50%, -6px) scale(1.03); }
+  70% { transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
-
 @keyframes hm-rise {
-  0% {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
-
-@keyframes hm-scan {
-  0% {
-    transform: translateY(-10%);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.7;
-  }
-  90% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(1010%);
-    opacity: 0;
-  }
+@keyframes hm-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
-
 @keyframes hm-progress-glow {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
 }
-
 @keyframes hm-tilt-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes hm-goal-scan {
+  0% { transform: translateX(-140%); }
+  100% { transform: translateX(430%); }
 }
 
-.anim-float-in {
-  animation: hm-float-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.anim-pop-in {
-  animation: hm-pop-in 420ms cubic-bezier(0.22, 1.4, 0.36, 1) both;
-}
-.anim-rise {
-  animation: hm-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.anim-bob {
-  animation: hm-bob 2.6s ease-in-out infinite;
-}
-.anim-tilt-hint {
-  animation: hm-tilt-hint 2.2s ease-in-out infinite;
-}
-
-.stage.is-investing .cine-bar {
-  height: 92px;
-}
-
-/* Estado "recibiendo": el escenario se tensa un poco. */
-.stage.is-investing .stage-sky {
-  filter: brightness(1.14) saturate(1.06);
-  transition: filter 400ms ease;
-}
+.anim-float-in { animation: hm-float-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-pop-in { animation: hm-pop-in 420ms cubic-bezier(0.22, 1.4, 0.36, 1) both; }
+.anim-rise { animation: hm-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-bob { animation: hm-bob 2.6s ease-in-out infinite; }
+.anim-tilt-hint { animation: hm-tilt-hint 2.2s ease-in-out infinite; }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   MODALES
-   ═══════════════════════════════════════════════════════════════════════ */
-.scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 70;
-  display: grid;
-  place-items: center;
-  background: radial-gradient(80% 70% at 50% 50%, rgb(4 12 9 / 0.72) 0%, rgb(3 8 6 / 0.9) 100%);
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 260ms ease,
-    visibility 260ms step-end;
-  backdrop-filter: blur(3px);
-}
-.scrim.is-open {
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity 260ms ease,
-    visibility 0ms step-start;
-}
-
-.modal-card {
-  transform: translateY(26px) scale(0.94);
-  opacity: 0;
-  transition:
-    transform 320ms cubic-bezier(0.22, 1.2, 0.36, 1),
-    opacity 240ms ease;
-}
-.scrim.is-open .modal-card {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   ACCESIBILIDAD
-   ═══════════════════════════════════════════════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  .anim-float-in,
-  .anim-pop-in,
-  .anim-rise,
-  .anim-bob,
-  .anim-tilt-hint,
-  .stage.is-investing .cine-bar {
-    animation: none !important;
-    transition: none !important;
-  }
-  .cine-bar {
-    height: 0 !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-   ═══════════════════════════════════════════════════════════════════════ */
-
-/* Tablet landscape and small desktop: stage scales naturally via aspect-ratio */
+    RESPONSIVE
+    La rejilla (header · escena · stats) la ajusta `pages/index.astro`
+    con sus propias media queries; aquí sólo el contenedor, para no
+    pelear por especificidad con los estilos con scope de Astro.
+    ═══════════════════════════════════════════════════════════════════════ */
 @media (max-width: 1200px) {
-  .stage-frame {
-    padding: 16px;
-  }
-  .scene {
-    grid-template-columns: 340px minmax(0, 1fr) 300px;
-    gap: 16px;
-    padding: 0 32px;
-  }
-  .console {
-    grid-template-columns: minmax(0, 1fr) 240px;
-    gap: 16px;
-    padding: 0 32px 12px;
-  }
-  .console__quote {
-    font-size: 18px;
-  }
-  .org {
-    min-width: 480px;
-    padding: 28px 36px 24px;
-  }
+  .stage-frame { padding: 12px; }
 }
 
-/* Tablet portrait: stack scene columns, adjust console */
-@media (max-width: 900px) {
-  .stage {
-    grid-template-rows: 72px minmax(0, 1fr) auto;
-  }
-  .scene {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 20px;
-    padding: 0 24px;
-    align-items: start;
-  }
-  .scene__left,
-  .scene__center,
-  .scene__side {
-    width: 100%;
-    justify-items: center;
-  }
-  .scene__side {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .console {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 0 24px 12px;
-  }
-  .console__meta {
-    order: -1;
-    padding-bottom: 0;
-  }
-  .org {
-    min-width: 0;
-    width: 100%;
-    max-width: 480px;
-    padding: 24px 20px;
-  }
-}
-
-/* Mobile: compact everything, stack side panels */
 @media (max-width: 600px) {
-  .stage-frame {
-    padding: 12px;
-  }
-  .stage {
-    grid-template-rows: 64px minmax(0, 1fr) auto;
-    border-radius: 12px;
-  }
-  .hud-panel {
-    border-radius: 16px;
-  }
-  .scene {
-    gap: 16px;
-    padding: 0 16px;
-  }
-  .scene__side {
-    grid-template-columns: 1fr;
-  }
-  .scene__brissa {
-    gap: 4px;
-  }
-  .scene__nameplate {
-    padding: 4px 16px 5px;
-  }
-  .scene__nameplate b {
-    font-size: 16px;
-    letter-spacing: 0.2em;
-  }
-  .scene__tip {
-    font-size: 11px;
-    padding: 6px 12px;
-  }
-  .console {
-    gap: 12px;
-    padding: 0 16px 10px;
-  }
-  .console__quote {
-    font-size: 16px;
-    padding-left: 10px;
-  }
-  .console__note {
-    font-size: 12px;
-  }
-  .console__keys {
-    font-size: 10px;
-  }
-  .hud-label {
-    font-size: 13px;
-    letter-spacing: 0.15em;
-  }
-  .hud-value {
-    font-size: 24px;
-  }
-  .title-game {
-    font-size: clamp(28px, 8vw, 48px);
-  }
-  .kicker {
-    font-size: clamp(10px, 3vw, 14px);
-  }
-  .org__title {
-    font-size: 18px;
-    letter-spacing: 0.15em;
-  }
-  .org__input {
-    padding: 12px 14px;
-    font-size: 18px;
-    letter-spacing: 0.2em;
-  }
-  .demo {
-    top: 78px;
-    padding: 8px 12px;
-    gap: 8px;
-  }
-  .demo__btn {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-  .db-notice__card {
-    width: 100%;
-    max-width: 360px;
-    padding: 28px 20px;
-  }
-  .db-notice__title {
-    font-size: 20px;
-  }
-  .db-notice__body {
-    font-size: 16px;
-  }
-  .db-notice__hint {
-    font-size: 13px;
-  }
-  .feed__row {
-    padding: 8px 10px;
-    gap: 10px;
-  }
-  .feed__amount {
-    font-size: 14px;
-  }
-  .feed__time {
-    font-size: 11px;
-  }
+  .stage-frame { padding: 8px; }
+  .stage { min-height: 0; border-radius: 12px; }
 }
 
-/* Very small screens: ensure minimum usability */
-@media (max-width: 400px) {
-  .stage-frame {
-    padding: 8px;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-  .scene {
-    padding: 0 10px;
-  }
-  .console {
-    padding: 0 10px 8px;
-  }
-  .scene__nameplate b {
-    font-size: 14px;
-  }
-  .console__quote {
-    font-size: 14px;
-  }
-  .hud-value {
-    font-size: 20px;
-  }
+  .confetti, .layer--dust, .layer--aurora { display: none; }
 }

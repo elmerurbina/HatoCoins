@@ -1,0 +1,152 @@
+<button type="button" class="orden-btn" data-action="ordenar">
+  <span class="orden-btn__glow" aria-hidden="true"></span>
+  <span class="orden-btn__ring" aria-hidden="true"></span>
+  <span class="orden-btn__icon" aria-hidden="true">🍼</span>
+  <span class="orden-btn__label">ORDEÑAR A BRISSA</span>
+  <span class="orden-btn__sub">Descubre tu premio</span>
+</button>
+
+<style>
+  .orden-btn {
+    position: relative;
+    display: grid;
+    place-items: center;
+    gap: 2px;
+    width: 100%;
+    max-width: 340px;
+    padding: 16px 32px 18px;
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, #2f9152 0%, #1a6234 40%, #0b2419 100%);
+    border: 2px solid rgb(127 202 141 / 0.55);
+    box-shadow:
+      inset 0 1px 0 0 rgb(233 245 236 / 0.28),
+      inset 0 -10px 20px -12px rgb(0 0 0 / 0.8),
+      0 5px 0 0 #082016,
+      0 18px 40px -14px rgb(0 0 0 / 0.85),
+      0 0 70px -20px rgb(69 167 95 / 0.6);
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+    color: var(--color-hm-ink-50);
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 140ms cubic-bezier(0.3, 0, 0.2, 1),
+      box-shadow 140ms cubic-bezier(0.3, 0, 0.2, 1),
+      filter 200ms ease;
+  }
+
+  /* Latido de "aquí puedes pulsar" */
+  .orden-btn__glow {
+    position: absolute;
+    inset: -40%;
+    z-index: 0;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgb(234 191 78 / 0.28) 60deg,
+      transparent 140deg,
+      transparent 360deg
+    );
+    animation: orden-sweep 3.4s linear infinite;
+    pointer-events: none;
+  }
+
+  .orden-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(circle at 50% 120%, rgb(234 191 78 / 0.22) 0%, transparent 62%);
+    opacity: 0;
+    transition: opacity 260ms ease;
+    pointer-events: none;
+  }
+
+  .orden-btn:hover::after { opacity: 1; }
+  .orden-btn:hover:not(:disabled) {
+    filter: brightness(1.09) saturate(1.06);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 0 rgb(233 245 236 / 0.3),
+      0 7px 0 0 #082016,
+      0 22px 46px -14px rgb(0 0 0 / 0.85),
+      0 0 90px -16px rgb(69 167 95 / 0.75);
+  }
+  .orden-btn:active:not(:disabled) {
+    transform: translateY(4px) scale(0.985);
+    box-shadow:
+      inset 0 3px 8px 0 rgb(0 0 0 / 0.6),
+      0 1px 0 0 #082016;
+  }
+  .orden-btn:disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.5) brightness(0.72);
+  }
+
+  /* Anillo giratorio */
+  .orden-btn__ring {
+    position: absolute;
+    inset: -5px;
+    z-index: 1;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    border-top-color: var(--color-hm-gold-400);
+    border-right-color: rgb(234 191 78 / 0.25);
+    animation: hm-spin 2.6s linear infinite;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .orden-btn[data-locked='true'] .orden-btn__ring { opacity: 0.15; }
+  .orden-btn.is-spinning .orden-btn__ring {
+    border-top-color: #fff6d8;
+    animation-duration: 0.42s;
+    opacity: 1;
+  }
+
+  .orden-btn__icon {
+    position: relative;
+    z-index: 2;
+    font-size: 34px;
+    line-height: 1;
+    filter: drop-shadow(0 0 14px rgb(69 167 95 / 0.6));
+    animation: orden-idle 2.2s ease-in-out infinite;
+  }
+  .orden-btn.is-spinning .orden-btn__icon {
+    animation: orden-pull 320ms cubic-bezier(0.36, 0, 0.3, 1) infinite;
+  }
+
+  .orden-btn__label {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(15px, 2.6vw, 19px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 6px rgb(0 0 0 / 0.5);
+  }
+
+  .orden-btn__sub {
+    position: relative;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgb(216 232 224 / 0.75);
+  }
+
+  @keyframes orden-sweep {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes orden-idle {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.05); }
+  }
+  @keyframes orden-pull {
+    0%, 100% { transform: translateY(0) scale(1, 1); }
+    22% { transform: translateY(5px) scale(1.08, 0.9); }
+    58% { transform: translateY(-10px) scale(0.94, 1.1); }
+  }
+</style>
