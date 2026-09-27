@@ -1,0 +1,254 @@
+---
+import { COPY } from '../../lib/config';
+---
+
+<header class="game-header">
+  <!-- Marca -->
+  <div class="game-header__brand">
+    <div class="game-header__mark" aria-hidden="true">
+      <svg viewBox="0 0 44 44" width="46" height="46" focusable="false">
+        <defs>
+          <linearGradient id="hm-mark" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7fca8d" />
+            <stop offset="100%" stop-color="#2a8248" />
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="40" height="40" rx="13" fill="url(#hm-mark)" opacity="0.22" />
+        <rect
+          x="2.75"
+          y="2.75"
+          width="38.5"
+          height="38.5"
+          rx="12.5"
+          fill="none"
+          stroke="#7fca8d"
+          stroke-opacity="0.7"
+          stroke-width="1.5"
+        />
+        <path
+          d="M13 30c0-7 4-13 9-13s9 6 9 13"
+          fill="none"
+          stroke="#c2e6c8"
+          stroke-width="2.6"
+          stroke-linecap="round"
+        />
+        <path d="M17 30h10" stroke="#eabf4e" stroke-width="2.6" stroke-linecap="round" />
+        <circle cx="22" cy="24" r="2.4" fill="#eabf4e" />
+      </svg>
+    </div>
+    <div>
+      <h1 class="game-header__wordmark">{COPY.brand}</h1>
+      <p class="game-header__tag">{COPY.brandTag}</p>
+    </div>
+  </div>
+
+  <!-- Llamada central -->
+  <div class="game-header__center">
+    <h2 class="game-header__headline">{COPY.headline}</h2>
+    <p class="game-header__quote">{COPY.quote}</p>
+  </div>
+
+  <!-- Estado del evento + sonido -->
+  <div class="game-header__status">
+    <div class="game-header__right">
+      <div class="game-header__status-row">
+        <span class="game-header__dot" data-live-dot aria-hidden="true"></span>
+        <span data-status-text>EN VIVO · ESPERANDO INVERSIONES</span>
+      </div>
+
+      <button
+        type="button"
+        class="sound"
+        data-sound-toggle
+        data-on="false"
+        title="Activar sonido"
+        aria-label="Activar sonido"
+        aria-pressed="false"
+      >
+        🔇
+      </button>
+    </div>
+    <div class="game-header__invs" data-investment-count>0 inversiones</div>
+  </div>
+</header>
+
+<style>
+  .game-header {
+    display: grid;
+    height: 88px;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    padding: 0 46px 0 40px;
+  }
+
+  .game-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .game-header__mark {
+    display: grid;
+    place-items: center;
+    filter: drop-shadow(0 0 16px rgb(69 167 95 / 0.4));
+  }
+
+  .game-header__wordmark {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    color: var(--color-hm-green-50);
+    text-shadow: 0 0 26px rgb(69 167 95 / 0.4);
+  }
+
+  .game-header__tag {
+    margin: 6px 0 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-300);
+  }
+
+  .game-header__center {
+    text-align: center;
+    padding: 10px 42px;
+    position: relative;
+  }
+
+  .game-header__center::before,
+  .game-header__center::after {
+    content: '';
+    position: absolute;
+    top: 12%;
+    bottom: 12%;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, rgb(216 160 41 / 0.35), transparent);
+  }
+
+  .game-header__center::before {
+    left: 0;
+  }
+  .game-header__center::after {
+    right: 0;
+  }
+
+  .game-header__headline {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 46px;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: linear-gradient(
+      178deg,
+      var(--color-hm-gold-100) 0%,
+      var(--color-hm-gold-300) 44%,
+      var(--color-hm-gold-600) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 34px rgb(216 160 41 / 0.4));
+  }
+
+  .game-header__quote {
+    margin: 10px 0 0;
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-hm-ink-200);
+    letter-spacing: 0.01em;
+  }
+
+  .game-header__status {
+    justify-self: end;
+    text-align: right;
+    display: grid;
+    gap: 8px;
+  }
+
+  .game-header__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .sound {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex: none;
+    border-radius: 50%;
+    border: 1px solid rgb(139 161 147 / 0.24);
+    background: rgb(6 20 15 / 0.6);
+    font-size: 18px;
+    line-height: 1;
+    color: var(--color-hm-ink-200);
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .sound:hover {
+    transform: scale(1.08);
+    border-color: var(--color-hm-green-300);
+  }
+
+  .sound:focus-visible {
+    outline: 2px solid var(--color-hm-green-300);
+    outline-offset: 3px;
+  }
+
+  .sound[data-on='true'] {
+    color: var(--color-hm-green-100);
+    border-color: var(--color-hm-green-300);
+    background: rgb(69 167 95 / 0.18);
+    box-shadow: 0 0 18px rgb(69 167 95 / 0.35);
+  }
+
+  .game-header__status-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: rgb(6 20 15 / 0.6);
+    border: 1px solid rgb(139 161 147 / 0.2);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--color-hm-ink-200);
+    white-space: nowrap;
+  }
+
+  .game-header__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--color-hm-green-300);
+    box-shadow: 0 0 12px var(--color-hm-green-300);
+    animation: hm-pulse-glow 2.4s ease-in-out infinite;
+  }
+
+  .game-header__invs {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--color-hm-ink-300);
+  }
+
+  .stage.is-investing .game-header__dot {
+    background: var(--color-hm-gold-400);
+    box-shadow: 0 0 16px var(--color-hm-gold-400);
+  }
+</style>

@@ -1,0 +1,266 @@
+---
+/**
+ * Feeder — comedero de Brissa.
+ *
+ * No es una barra horizontal: es un comedero con comida real (grano a grano)
+ * que sube, rebota, brilla y se ilumina a medida que se llena.
+ * El nivel (0 → 1) lo escribe el controlador en `--feeder-level`.
+ *
+ * Sistema de referencia del SVG (viewBox 720 × 620):
+ *   cavidad: y = 208 (borde) → y = 590 (fondo)   ⇒ 382 px de altura útil
+ *   la "línea de comida" (coronilla del montón) va de 590 a 208.
+ */
+export interface Props {
+  width?: number;
+  class?: string;
+}
+
+const { width = 720, class: className = '' } = Astro.props;
+---
+
+<div class:list={['feeder', className]} data-feeder style={`--feeder-w:${width}px`}>
+  <!-- Boca del comedero: punto de llegada de las HatoCoins y de la comida. -->
+  <div class="feeder__mouth" data-fx="feeder-mouth" aria-hidden="true"></div>
+
+  <svg class="feeder__svg" viewBox="0 0 720 620" aria-hidden="true" focusable="false">
+    <defs>
+      <clipPath id="feeder-cavity">
+        <path d="M96 208 L624 208 L586 566 Q 584 590 558 590 L162 590 Q 136 590 134 566 Z" />
+      </clipPath>
+
+      <linearGradient id="feeder-rim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8a6134" />
+        <stop offset="42%" stop-color="#6d4a28" />
+        <stop offset="100%" stop-color="#3d2a17" />
+      </linearGradient>
+
+      <linearGradient id="feeder-metal" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#1a5d7d" />
+        <stop offset="46%" stop-color="#55a6c6" />
+        <stop offset="100%" stop-color="#13455f" />
+      </linearGradient>
+
+      <linearGradient id="feeder-food" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e0bd7c" />
+        <stop offset="24%" stop-color="#c8a06a" />
+        <stop offset="100%" stop-color="#7a5330" />
+      </linearGradient>
+
+      <linearGradient id="feeder-mound" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f7e6c2" />
+        <stop offset="55%" stop-color="#dcb87c" />
+        <stop offset="100%" stop-color="#b98d55" />
+      </linearGradient>
+
+      <!-- Oclusión ambiental: el aro proyecta sombra sobre la comida. -->
+      <linearGradient id="feeder-wall" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#04120d" stop-opacity="0.62" />
+        <stop offset="38%" stop-color="#04120d" stop-opacity="0.26" />
+        <stop offset="100%" stop-color="#04120d" stop-opacity="0.08" />
+      </linearGradient>
+
+      <radialGradient id="feeder-cavity-shade" cx="50%" cy="6%" r="96%">
+        <stop offset="0%" stop-color="#0d2a1c" />
+        <stop offset="58%" stop-color="#071a12" />
+        <stop offset="100%" stop-color="#04120d" />
+      </radialGradient>
+
+      <radialGradient id="feeder-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#f4d681" stop-opacity="0.6" />
+        <stop offset="52%" stop-color="#d6a029" stop-opacity="0.18" />
+        <stop offset="100%" stop-color="#d6a029" stop-opacity="0" />
+      </radialGradient>
+
+      <linearGradient id="feeder-halo" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#eabf4e" stop-opacity="0" />
+        <stop offset="46%" stop-color="#eabf4e" stop-opacity="0.22" />
+        <stop offset="100%" stop-color="#eabf4e" stop-opacity="0" />
+      </linearGradient>
+
+      <filter id="feeder-soft" x="-25%" y="-25%" width="150%" height="150%">
+        <feGaussianBlur stdDeviation="10" />
+      </filter>
+
+      <!-- Grano de alimento: se repite dentro de la cavidad. -->
+      <pattern id="feeder-kibble" width="34" height="30" patternUnits="userSpaceOnUse">
+        <ellipse cx="7" cy="8" rx="6" ry="4.4" fill="#efe0c7" opacity="0.85" transform="rotate(-18 7 8)" />
+        <ellipse cx="23" cy="20" rx="5.4" ry="4" fill="#a87f4c" opacity="0.8" transform="rotate(22 23 20)" />
+        <ellipse cx="26" cy="4" rx="4" ry="3" fill="#dcc094" opacity="0.7" />
+        <ellipse cx="4" cy="24" rx="4.6" ry="3.4" fill="#c8a06a" opacity="0.75" />
+        <circle cx="15" cy="15" r="1.6" fill="#6d4a28" opacity="0.55" />
+      </pattern>
+    </defs>
+
+    <!-- Resplandor exterior: el comedero "se enciende" al llenarse. -->
+    <ellipse class="feeder__halo" cx="360" cy="360" rx="330" ry="290" fill="url(#feeder-halo)" />
+
+    <!-- Cavidad vacía -->
+    <path
+      d="M96 208 L624 208 L586 566 Q 584 590 558 590 L162 590 Q 136 590 134 566 Z"
+      fill="url(#feeder-cavity-shade)"
+    />
+
+    <!-- ── COMIDA ──────────────────────────────────────────────────────
+         El grupo se traslada: 372 px (vacío) → -10 px (colmado).
+         Coronilla del montón = 224 + translation ⇒ 596 → 214.           -->
+    <g clip-path="url(#feeder-cavity)">
+      <g class="feeder__food" data-feeder-food>
+        <rect x="80" y="230" width="570" height="470" fill="url(#feeder-food)" />
+        <rect x="80" y="230" width="570" height="470" fill="url(#feeder-kibble)" />
+
+        <!-- Montón irregular: varias elipses solapadas -->
+        <g class="feeder__mound">
+          <ellipse cx="360" cy="252" rx="270" ry="28" fill="url(#feeder-mound)" />
+          <ellipse cx="238" cy="262" rx="130" ry="22" fill="url(#feeder-mound)" />
+          <ellipse cx="486" cy="260" rx="126" ry="21" fill="url(#feeder-mound)" />
+          <ellipse cx="360" cy="240" rx="150" ry="18" fill="#f7e6c2" opacity="0.75" />
+          <!-- Granos sueltos sobre la coronilla -->
+          <circle cx="176" cy="246" r="8" fill="#e0bd7c" />
+          <circle cx="196" cy="238" r="6" fill="#efe0c7" />
+          <circle cx="512" cy="248" r="7" fill="#a87f4c" />
+          <circle cx="540" cy="240" r="6" fill="#e0bd7c" />
+          <circle cx="318" cy="232" r="7" fill="#dcc094" />
+          <circle cx="404" cy="234" r="6" fill="#efe0c7" />
+          <circle cx="264" cy="230" r="5" fill="#a87f4c" />
+          <circle cx="452" cy="230" r="5" fill="#dcc094" />
+        </g>
+
+        <!-- Sombra de la pared trasera sobre la comida -->
+        <rect x="80" y="208" width="570" height="420" fill="url(#feeder-wall)" />
+        <!-- Luz cálida que rebota dentro del comedero -->
+        <ellipse class="feeder__inner-glow" cx="360" cy="420" rx="300" ry="230" fill="url(#feeder-glow)" />
+      </g>
+    </g>
+
+    <!-- Brillo del vidrio frontal -->
+    <path d="M150 288 L232 288 L188 566 L136 566 Z" fill="#dceef5" opacity="0.045" />
+
+    <!-- ── Marco / aro del comedero ─────────────────────────────────── -->
+    <path
+      d="M74 148 L646 148 Q 668 148 664 172 L640 244 Q 636 264 616 264 L104 264 Q 84 264 80 244 L56 172 Q 52 148 74 148 Z"
+      fill="url(#feeder-rim)"
+    />
+    <path
+      d="M74 148 L646 148 Q 668 148 664 172 L640 244 Q 636 264 616 264 L104 264 Q 84 264 80 244 L56 172 Q 52 148 74 148 Z"
+      fill="none"
+      stroke="#dcc094"
+      stroke-opacity="0.45"
+      stroke-width="3"
+    />
+    <path d="M104 236 L616 236 L612 262 L108 262 Z" fill="#04120d" opacity="0.55" />
+
+    <!-- Tiradores metálicos -->
+    <rect x="26" y="300" width="54" height="26" rx="13" fill="url(#feeder-metal)" />
+    <rect x="640" y="300" width="54" height="26" rx="13" fill="url(#feeder-metal)" />
+
+    <!-- Patas -->
+    <path d="M182 578 L214 578 L204 620 L166 620 Z" fill="#3d2a17" />
+    <path d="M506 578 L538 578 L554 620 L516 620 Z" fill="#3d2a17" />
+    <rect x="138" y="608" width="98" height="16" rx="8" fill="#2a1d10" />
+    <rect x="484" y="608" width="98" height="16" rx="8" fill="#2a1d10" />
+
+    <!-- Placa de la marca -->
+    <g opacity="0.92">
+      <rect x="288" y="512" width="144" height="38" rx="12" fill="#2a1d10" opacity="0.6" />
+      <text
+        x="360"
+        y="537"
+        text-anchor="middle"
+        font-size="18"
+        font-weight="800"
+        letter-spacing="3"
+        fill="#dcc094"
+        opacity="0.82">HATOMASTER</text
+      >
+    </g>
+  </svg>
+
+  <!-- Indicador de rebose: se enciende al acercarse al tope. -->
+  <div class="feeder__level" aria-hidden="true"></div>
+</div>
+
+<style>
+  .feeder {
+    position: relative;
+    width: var(--feeder-w, 720px);
+    aspect-ratio: 720 / 620;
+    transform-origin: 50% 100%;
+    will-change: transform;
+  }
+
+  .feeder__svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 28px 44px rgb(0 0 0 / 0.62));
+  }
+
+  /* Comida: 372 px = vacío · -10 px = colmado. */
+  .feeder__food {
+    transform: translateY(calc(372px - var(--feeder-level, 0) * 382px));
+  }
+
+  .feeder__inner-glow {
+    opacity: calc(var(--feeder-level, 0) * 0.95);
+    mix-blend-mode: screen;
+  }
+
+  .feeder__halo {
+    opacity: calc(0.1 + var(--feeder-level, 0) * 0.9);
+  }
+
+  /* Rebote al llenarse: lo dispara el controlador. */
+  .feeder.is-bouncing {
+    animation: hm-settle 640ms cubic-bezier(0.22, 1.3, 0.36, 1);
+  }
+
+  .feeder__level {
+    position: absolute;
+    left: 50%;
+    bottom: -22px;
+    width: 74%;
+    height: 9px;
+    translate: -50% 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #54381f, #8a6134);
+    box-shadow: inset 0 1px 0 0 rgb(239 224 199 / 0.35);
+    overflow: hidden;
+    opacity: 0.9;
+  }
+
+  .feeder__level::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: calc(var(--feeder-level, 0) * 100%);
+    background: linear-gradient(90deg, #b57f1a, #fbe9b4);
+    box-shadow: 0 0 14px rgb(234 191 78 / 0.85);
+  }
+
+  .feeder__mouth {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    width: 60%;
+    height: 18%;
+    translate: -50% 0;
+  }
+</style>
+
+<style is:global>
+  @keyframes hm-settle {
+    0% {
+      transform: translateY(0) scale(1, 1);
+    }
+    35% {
+      transform: translateY(-10px) scale(1.016, 0.984);
+    }
+    68% {
+      transform: translateY(3px) scale(0.994, 1.008);
+    }
+    100% {
+      transform: translateY(0) scale(1, 1);
+    }
+  }
+</style>

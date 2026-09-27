@@ -1,0 +1,511 @@
+---
+import { getBrissaAsset } from '../../lib/brissa';
+import type { BrissaState } from '../../lib/types';
+
+export interface Props {
+  /** Estado emocional/animado de Brissa. */
+  state?: BrissaState;
+  /** Asset oficial opcional. Si no se pasa, se respeta PUBLIC_BRISSA_ASSET. */
+  src?: string | null;
+  /** Ancho en píxeles del escenario (la altura se calcula 1:1). */
+  size?: number;
+  class?: string;
+}
+
+const {
+  state = 'idle',
+  src = getBrissaAsset(),
+  size = 520,
+  class: className = '',
+} = Astro.props;
+
+const asset = src && src.length > 0 ? src : null;
+---
+
+<!--
+  Brissa — mascota/asistente de HatoMaster.
+  Componente AISLADO a propósito: todo lo visual de Brissa vive aquí.
+  Para usar el asset oficial basta con poner PUBLIC_BRISSA_ASSET en .env
+  (o pasar `src`): el resto de la aplicación no cambia.
+-->
+<div
+  class:list={['brissa', className]}
+  data-brissa
+  data-state={state}
+  style={`--brissa-size:${size}px`}
+>
+  {
+    asset ? (
+      <img
+        class="brissa__asset"
+        src={asset}
+        alt="Brissa, la asistente de HatoMaster"
+        width={size}
+        height={size}
+        loading="eager"
+        decoding="sync"
+        draggable="false"
+      />
+    ) : (
+      <svg
+        class="brissa__svg"
+        viewBox="0 0 520 520"
+        width={size}
+        height={size}
+        role="img"
+        aria-label="Brissa, la asistente de HatoMaster"
+      >
+        <defs>
+          <radialGradient id="brissa-halo" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#a583e0" stop-opacity="0.34" />
+            <stop offset="62%" stop-color="#5d3a9c" stop-opacity="0.14" />
+            <stop offset="100%" stop-color="#241640" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="brissa-cream" cx="38%" cy="26%" r="82%">
+            <stop offset="0%" stop-color="#faf3e4" />
+            <stop offset="52%" stop-color="#eee2ca" />
+            <stop offset="100%" stop-color="#cdbb9c" />
+          </radialGradient>
+          <radialGradient id="brissa-muzzle" cx="46%" cy="30%" r="78%">
+            <stop offset="0%" stop-color="#f0c0b3" />
+            <stop offset="100%" stop-color="#cf8f83" />
+          </radialGradient>
+          <linearGradient id="brissa-bell" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fbe9b4" />
+            <stop offset="52%" stop-color="#eabf4e" />
+            <stop offset="100%" stop-color="#a8741a" />
+          </linearGradient>
+          <linearGradient id="brissa-sheen" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#fdf5da" stop-opacity="0" />
+            <stop offset="50%" stop-color="#fdf5da" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#fdf5da" stop-opacity="0" />
+          </linearGradient>
+          <radialGradient id="brissa-shadow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#04120d" stop-opacity="0.62" />
+            <stop offset="100%" stop-color="#04120d" stop-opacity="0" />
+          </radialGradient>
+          <clipPath id="brissa-head-clip">
+            <ellipse cx="260" cy="150" rx="120" ry="106" />
+          </clipPath>
+        </defs>
+
+        {/* ── Halo de asistente (IA) ─────────────────────────────── */}
+        <g class="brissa__halo" aria-hidden="true">
+          <circle cx="260" cy="268" r="228" fill="url(#brissa-halo)" />
+          <circle
+            class="brissa__halo-ring"
+            cx="260"
+            cy="268"
+            r="206"
+            fill="none"
+            stroke="#a583e0"
+            stroke-opacity="0.34"
+            stroke-width="2"
+            stroke-dasharray="10 18"
+          />
+        </g>
+
+        {/* ── Sombra en el suelo ──────────────────────────────────── */}
+        <ellipse class="brissa__shadow" cx="260" cy="486" rx="164" ry="26" fill="url(#brissa-shadow)" />
+
+        {/* ── Cola ────────────────────────────────────────────────── */}
+        <g class="brissa__tail">
+          <path
+            d="M140 322 C 104 300 82 258 88 210 C 92 178 76 160 62 150"
+            fill="none"
+            stroke="#cdbb9c"
+            stroke-width="15"
+            stroke-linecap="round"
+          />
+          <ellipse cx="60" cy="142" rx="20" ry="26" fill="#3c4d57" transform="rotate(-18 60 142)" />
+        </g>
+
+        {/* ── Patas Traseras ──────────────────────────────────────── */}
+        <g class="brissa__hind">
+          <ellipse cx="160" cy="452" rx="52" ry="44" fill="url(#brissa-cream)" />
+          <ellipse cx="360" cy="452" rx="52" ry="44" fill="url(#brissa-cream)" />
+          <ellipse cx="160" cy="486" rx="42" ry="17" fill="#33454f" />
+          <ellipse cx="360" cy="486" rx="42" ry="17" fill="#33454f" />
+        </g>
+
+        {/* ── Cuerpo ──────────────────────────────────────────────── */}
+        <g class="brissa__body">
+          <path
+            d="M260 218 C 358 218 412 284 412 356 C 412 424 346 470 260 470 C 174 470 108 424 108 356 C 108 284 162 218 260 218 Z"
+            fill="url(#brissa-cream)"
+          />
+          <path
+            d="M330 262 C 386 274 410 314 404 356 C 396 404 352 430 306 424 C 282 420 268 400 272 374 C 278 336 296 288 330 262 Z"
+            fill="#3c4d57"
+            opacity="0.92"
+          />
+          <ellipse cx="196" cy="404" rx="62" ry="34" fill="#fdf5da" opacity="0.4" />
+        </g>
+
+        {/* ── Patas Delanteras ────────────────────────────────────── */}
+        <g class="brissa__front">
+          <rect x="190" y="404" width="58" height="82" rx="29" fill="url(#brissa-cream)" />
+          <rect x="272" y="404" width="58" height="82" rx="29" fill="url(#brissa-cream)" />
+          <ellipse cx="219" cy="480" rx="30" ry="15" fill="#33454f" />
+          <ellipse cx="301" cy="480" rx="30" ry="15" fill="#33454f" />
+        </g>
+
+        {/* ── Cuello, collar y cascabel ───────────────────────────── */}
+        <ellipse cx="260" cy="252" rx="88" ry="54" fill="url(#brissa-cream)" />
+        <path
+          class="brissa__collar"
+          d="M186 254 Q 260 300 334 254"
+          fill="none"
+          stroke="#8a3f3f"
+          stroke-width="15"
+          stroke-linecap="round"
+        />
+        <g class="brissa__bell">
+          <circle cx="260" cy="296" r="21" fill="url(#brissa-bell)" />
+          <rect x="252" y="300" width="16" height="6" rx="3" fill="#8f6114" />
+          <circle cx="254" cy="288" r="5" fill="#fdf5da" opacity="0.75" />
+        </g>
+
+        {/* ── Cabeza (grupo que se inclina) ──────────────────────── */}
+        <g class="brissa__head">
+          {/* Orejas */}
+          <g class="brissa__ear brissa__ear--l">
+            <ellipse cx="140" cy="158" rx="48" ry="29" fill="url(#brissa-cream)" transform="rotate(-16 140 158)" />
+            <ellipse cx="142" cy="160" rx="28" ry="16" fill="#e0a79a" transform="rotate(-16 142 160)" opacity="0.7" />
+          </g>
+          <g class="brissa__ear brissa__ear--r">
+            <ellipse cx="380" cy="158" rx="48" ry="29" fill="url(#brissa-cream)" transform="rotate(16 380 158)" />
+            <ellipse cx="378" cy="160" rx="28" ry="16" fill="#e0a79a" transform="rotate(16 378 160)" opacity="0.7" />
+          </g>
+
+          {/* Cuernos */}
+          <path d="M196 72 C 176 46 184 22 208 14 C 202 36 214 52 224 62 Z" fill="#dcc094" />
+          <path d="M324 72 C 344 46 336 22 312 14 C 318 36 306 52 296 62 Z" fill="#dcc094" />
+
+          {/* Cráneo */}
+          <ellipse cx="260" cy="150" rx="120" ry="106" fill="url(#brissa-cream)" />
+          <g clip-path="url(#brissa-head-clip)">
+            <path
+              d="M150 44 C 210 26 268 44 292 92 C 310 128 296 152 258 150 C 210 148 168 128 148 96 Z"
+              fill="#3c4d57"
+              opacity="0.94"
+            />
+            <path d="M356 92 C 388 116 400 168 372 208 Z" fill="#3c4d57" opacity="0.72" />
+            {/* Brillo de la sheen al celebrar */}
+            <rect
+              class="brissa__sheen"
+              x="120"
+              y="20"
+              width="46"
+              height="220"
+              fill="url(#brissa-sheen)"
+              transform="skewX(-16)"
+            />
+          </g>
+
+          {/* Ojos */}
+          <g class="brissa__eye brissa__eye--l">
+            <ellipse cx="222" cy="162" rx="16" ry="18" fill="#1b2b26" />
+            <circle cx="227" cy="155" r="6" fill="#e8f5ea" />
+            <circle cx="217" cy="169" r="3" fill="#7fca8d" opacity="0.8" />
+          </g>
+          <g class="brissa__eye brissa__eye--r">
+            <ellipse cx="298" cy="162" rx="16" ry="18" fill="#1b2b26" />
+            <circle cx="293" cy="155" r="6" fill="#e8f5ea" />
+            <circle cx="303" cy="169" r="3" fill="#7fca8d" opacity="0.8" />
+          </g>
+          <path d="M204 132 Q 222 124 240 132" fill="none" stroke="#33454f" stroke-width="6" stroke-linecap="round" opacity="0.7" />
+          <path d="M280 132 Q 298 124 316 132" fill="none" stroke="#33454f" stroke-width="6" stroke-linecap="round" opacity="0.7" />
+
+          {/* Hocico */}
+          <g class="brissa__muzzle">
+            <ellipse cx="260" cy="222" rx="68" ry="42" fill="url(#brissa-muzzle)" />
+            <ellipse cx="236" cy="222" rx="10" ry="13" fill="#8f4d45" opacity="0.85" />
+            <ellipse cx="284" cy="222" rx="10" ry="13" fill="#8f4d45" opacity="0.85" />
+            <path
+              class="brissa__mouth"
+              d="M232 244 Q 260 264 288 244"
+              fill="none"
+              stroke="#8f4d45"
+              stroke-width="7"
+              stroke-linecap="round"
+            />
+          </g>
+
+          {/* Rubor */}
+          <ellipse class="brissa__blush brissa__blush--l" cx="182" cy="212" rx="26" ry="15" fill="#e07a6c" />
+          <ellipse class="brissa__blush brissa__blush--r" cx="338" cy="212" rx="26" ry="15" fill="#e07a6c" />
+        </g>
+      </svg>
+    )
+  }
+</div>
+
+<style>
+  .brissa {
+    position: relative;
+    width: var(--brissa-size, 520px);
+    height: var(--brissa-size, 520px);
+    display: grid;
+    place-items: center;
+    transform-origin: 50% 92%;
+    will-change: transform;
+  }
+
+  .brissa__svg,
+  .brissa__asset {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .brissa__asset {
+    object-fit: contain;
+    image-rendering: auto;
+    -webkit-user-drag: none;
+  }
+
+  .brissa__head,
+  .brissa__tail,
+  .brissa__ear,
+  .brissa__eye,
+  .brissa__body,
+  .brissa__shadow,
+  .brissa__bell,
+  .brissa__halo-ring {
+    transform-box: fill-box;
+  }
+
+  .brissa__head {
+    transform-origin: 50% 100%;
+  }
+  .brissa__tail {
+    transform-origin: 8% 88%;
+  }
+  .brissa__ear {
+    transform-origin: 50% 50%;
+  }
+  .brissa__eye {
+    transform-origin: 50% 50%;
+  }
+  .brissa__body {
+    transform-origin: 50% 100%;
+  }
+  .brissa__shadow {
+    transform-origin: 50% 50%;
+  }
+  .brissa__halo-ring {
+    transform-origin: 50% 50%;
+  }
+
+  /* ── Base: respiración + parpadeo ─────────────────────────────────── */
+  .brissa__svg {
+    animation: hm-breathe 4.2s ease-in-out infinite;
+  }
+
+  .brissa__shadow {
+    animation: hm-shadow-breathe 4.2s ease-in-out infinite;
+  }
+
+  .brissa__eye {
+    animation: hm-blink 6.5s infinite;
+    animation-timing-function: ease-in-out;
+  }
+
+  .brissa__ear--l {
+    animation: hm-ear-flick 7.5s ease-in-out infinite;
+  }
+  .brissa__ear--r {
+    animation: hm-ear-flick 9.5s ease-in-out infinite;
+  }
+
+  .brissa__tail {
+    animation: hm-wag 3.4s ease-in-out infinite;
+  }
+
+  .brissa__halo-ring {
+    animation: hm-spin 26s linear infinite;
+  }
+
+  .brissa__blush {
+    opacity: 0;
+    transition: opacity 260ms ease;
+  }
+
+  .brissa__sheen {
+    opacity: 0;
+  }
+
+  .brissa__mouth {
+    transition: d 220ms ease;
+  }
+
+  /* ── IDLE ─────────────────────────────────────────────────────────── */
+  .brissa[data-state='idle'] .brissa__mouth {
+    d: path('M232 244 Q 260 258 288 244');
+  }
+
+  /* ── WAITING · Brissa espera al siguiente inversor ────────────────── */
+  .brissa[data-state='waiting'] {
+    animation: hm-bob 3.1s ease-in-out infinite;
+  }
+  .brissa[data-state='waiting'] .brissa__tail {
+    animation: hm-wag 2.1s ease-in-out infinite;
+  }
+  .brissa[data-state='waiting'] .brissa__ear {
+    animation: hm-ear-wait 1.6s ease-in-out infinite;
+  }
+
+  /* ── RECEIVING · Mira hacia el comedero ───────────────────────────── */
+  .brissa[data-state='receiving'] {
+    animation: hm-lean 1.1s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+  }
+  .brissa[data-state='receiving'] .brissa__head {
+    animation: hm-head-tilt 900ms cubic-bezier(0.3, 0, 0.2, 1) forwards;
+  }
+  .brissa[data-state='receiving'] .brissa__eye {
+    transform: translateY(5px) scaleY(0.82);
+    animation: none;
+  }
+  .brissa[data-state='receiving'] .brissa__ear {
+    animation: none;
+    transform: rotate(-9deg);
+  }
+  .brissa[data-state='receiving'] .brissa__ear--r {
+    transform: rotate(9deg);
+  }
+  .brissa[data-state='receiving'] .brissa__tail {
+    animation: hm-wag 0.85s ease-in-out infinite;
+  }
+  .brissa[data-state='receiving'] .brissa__mouth {
+    d: path('M230 246 Q 260 272 290 246');
+  }
+
+  /* ── HAPPY · Mini celebración ─────────────────────────────────────── */
+  .brissa[data-state='happy'] {
+    animation: hm-hop 760ms cubic-bezier(0.3, 0, 0.2, 1) 2;
+  }
+  .brissa[data-state='happy'] .brissa__tail {
+    animation: hm-wag 340ms ease-in-out infinite;
+  }
+  .brissa[data-state='happy'] .brissa__blush {
+    opacity: 0.65;
+  }
+  .brissa[data-state='happy'] .brissa__sheen {
+    opacity: 1;
+    animation: hm-sheen 1.1s ease-out 1;
+  }
+  .brissa[data-state='happy'] .brissa__ear {
+    animation: none;
+    transform: translateY(-8px) rotate(-4deg);
+  }
+  .brissa[data-state='happy'] .brissa__ear--r {
+    transform: translateY(-8px) rotate(4deg);
+  }
+  .brissa[data-state='happy'] .brissa__mouth {
+    d: path('M228 244 Q 260 276 292 244');
+  }
+  .brissa[data-state='happy'] .brissa__bell {
+    animation: hm-bell 300ms ease-in-out infinite;
+  }
+
+  /* ── ALMOST FULL · Reacción especial ≥ 80 % ───────────────────────── */
+  .brissa[data-state='almost_full'] {
+    animation: hm-hop 900ms cubic-bezier(0.3, 0, 0.2, 1) infinite;
+  }
+  .brissa[data-state='almost_full'] .brissa__tail {
+    animation: hm-wag 260ms ease-in-out infinite;
+  }
+  .brissa[data-state='almost_full'] .brissa__blush {
+    opacity: 0.8;
+  }
+  .brissa[data-state='almost_full'] .brissa__eye {
+    animation: none;
+  }
+  .brissa[data-state='almost_full'] .brissa__mouth {
+    d: path('M226 242 Q 260 280 294 242');
+  }
+  .brissa[data-state='almost_full'] .brissa__halo-ring {
+    animation: hm-spin 9s linear infinite;
+    stroke-opacity: 0.7;
+  }
+
+  /* ── COMPLETED · Celebración completa ─────────────────────────────── */
+  .brissa[data-state='completed'] {
+    animation: hm-hop 780ms cubic-bezier(0.3, 0, 0.2, 1) infinite;
+  }
+  .brissa[data-state='completed'] .brissa__tail {
+    animation: hm-wag 220ms ease-in-out infinite;
+  }
+  .brissa[data-state='completed'] .brissa__blush {
+    opacity: 0.9;
+  }
+  .brissa[data-state='completed'] .brissa__sheen {
+    opacity: 1;
+    animation: hm-sheen 1.4s ease-out infinite;
+  }
+  .brissa[data-state='completed'] .brissa__halo-ring {
+    animation: hm-spin 6s linear infinite;
+    stroke: #eabf4e;
+    stroke-opacity: 0.85;
+  }
+  .brissa[data-state='completed'] .brissa__bell {
+    animation: hm-bell 240ms ease-in-out infinite;
+  }
+  .brissa[data-state='completed'] .brissa__mouth {
+    d: path('M224 240 Q 260 284 296 240');
+  }
+</style>
+
+<style is:global>
+  @keyframes hm-shadow-breathe {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(0.94);
+      opacity: 0.6;
+    }
+  }
+
+  @keyframes hm-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes hm-ear-wait {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(-7deg);
+    }
+  }
+
+  @keyframes hm-lean {
+    0% {
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      transform: translateY(16px) scale(0.985);
+    }
+  }
+
+  @keyframes hm-bell {
+    0%,
+    100% {
+      transform: rotate(-13deg);
+    }
+    50% {
+      transform: rotate(13deg);
+    }
+  }
+</style>

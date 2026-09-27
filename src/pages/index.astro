@@ -1,0 +1,617 @@
+---
+import '../styles/global.css';
+
+import Brissa from '../components/game/Brissa.astro';
+import Feeder from '../components/game/Feeder.astro';
+import GameHeader from '../components/game/GameHeader.astro';
+import GoalProgress from '../components/game/GoalProgress.astro';
+import CoinAnimation from '../components/game/CoinAnimation.astro';
+import InvestmentNotification from '../components/game/InvestmentNotification.astro';
+import CelebrationOverlay from '../components/game/CelebrationOverlay.astro';
+
+import InvestmentSelector from '../components/investment/InvestmentSelector.astro';
+import ConfirmationModal from '../components/investment/ConfirmationModal.astro';
+
+import InvestmentBreakdown from '../components/stats/InvestmentBreakdown.astro';
+import InvestmentHistory from '../components/stats/InvestmentHistory.astro';
+
+import Button from '../components/ui/Button.astro';
+import { COPY, DEMO_AMOUNTS, GOAL, GOAL_MESSAGE } from '../lib/config';
+import { formatAmount } from '../lib/investments';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#071a12" />
+    <meta
+      name="description"
+      content="HatoCoins — Alimenta a Brissa. Experiencia interactiva de inversión para HatoMaster."
+    />
+    <title>HatoCoins · Alimenta a Brissa</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="stage-frame">
+      <main class="stage" data-stage aria-label="HatoCoins: Alimenta a Brissa">
+        <!-- Barras cinematográficas -->
+        <div class="cine-bar cine-bar--top" aria-hidden="true"></div>
+        <div class="cine-bar cine-bar--bottom" aria-hidden="true"></div>
+
+        <!-- Capa de fondo -->
+        <div class="hud-grid absolute inset-0" aria-hidden="true"></div>
+        <div class="stage-sky absolute inset-0" aria-hidden="true"></div>
+
+        <!-- ── Cabecera ──────────────────────────────────────────────── -->
+        <GameHeader />
+
+        <!-- ── Cuerpo: Brissa + comedero + HUD ─────────────────────── -->
+        <section class="scene">
+          <!-- Columna izquierda: Brissa -->
+          <div class="scene__left">
+            <div class="scene__brissa">
+              <span class="scene__nameplate">
+                <b>BRISSA</b>
+                <i>asistente HatoMaster</i>
+              </span>
+              <Brissa state="idle" size={390} />
+              <p class="scene__tip">
+                <span class="scene__tip-arrow" aria-hidden="true">🐄</span>
+                Brissa está esperando tu inversión
+              </p>
+            </div>
+          </div>
+
+          <!-- Columna central: comedero + progreso -->
+          <div class="scene__center">
+            <Feeder width={520} />
+            <GoalProgress />
+          </div>
+
+          <!-- Columna derecha: HUD lateral -->
+          <aside class="scene__side">
+            <InvestmentBreakdown />
+            <InvestmentHistory />
+          </aside>
+        </section>
+
+        <!-- ── Consola de inversión ─────────────────────────────────── -->
+        <div class="console">
+          <div class="console__panel">
+            <InvestmentSelector />
+          </div>
+          <div class="console__meta">
+            <p class="console__quote">“{COPY.quote}”</p>
+            <p class="console__note">
+              Elige una cantidad, confirma y mira cómo Brissa come.<br />
+              <span class="console__keys">
+                <kbd>1</kbd>–<kbd>7</kbd> cantidades · <kbd>Enter</kbd> continuar ·
+                <kbd>Esc</kbd> cancelar
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <!-- ── Capas de efectos y overlays ──────────────────────────── -->
+        <CoinAnimation />
+        <InvestmentNotification />
+        <CelebrationOverlay />
+        <ConfirmationModal />
+
+        <!-- ── Modo demo (desarrollo / Ctrl+Shift+D) ─────────────────── -->
+        <div class="demo" data-demo-bar hidden>
+          <span class="demo__label">MODO DEMO</span>
+          {
+            DEMO_AMOUNTS.map((amount) => (
+              <button
+                type="button"
+                class="demo__btn"
+                data-action="demo-invest"
+                data-amount={amount}
+              >
+                +{formatAmount(amount)} HM
+              </button>
+            ))
+          }
+          <span class="demo__hint">Ctrl+Shift+D para ocultar</span>
+        </div>
+
+        <!-- ── Indicador de reinicio (oculto) ───────────────────────── -->
+        <div class="hold" data-reset-hold data-active="false" aria-hidden="true">
+          <span class="hold__ring"></span>
+          <span class="hold__label">MANTÉN PARA REINICIAR</span>
+        </div>
+
+        <!-- ── Modo organización ─────────────────────────────────────── -->
+        <div
+          class="scrim"
+          data-modal="org"
+          data-open="false"
+          role="dialog"
+          aria-modal="true"
+          aria-hidden="true"
+          aria-label="Modo organización"
+        >
+          <div class="modal-card">
+            <div class="hud-panel hud-corners org" data-org-panel data-view="password">
+              <!-- Vista: contraseña -->
+              <div class="org__view" data-view="password">
+                <h3 class="org__title">MODO ORGANIZACIÓN</h3>
+                <p class="org__sub">Introduce la contraseña del evento.</p>
+                <input
+                  class="org__input"
+                  type="password"
+                  data-org-password
+                  placeholder="••••••"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <div class="org__actions">
+                  <Button variant="ghost" size="md" data-action="org-close">Cerrar</Button>
+                  <Button variant="primary" size="md" data-action="org-confirm">Entrar</Button>
+                </div>
+              </div>
+
+              <!-- Vista: panel -->
+              <div class="org__view" data-view="panel">
+                <h3 class="org__title">MODO ORGANIZACIÓN</h3>
+                <p class="org__sub">
+                  {formatAmount(GOAL)} HM de meta · {GOAL_MESSAGE}
+                </p>
+                <div class="org__actions">
+                  <Button variant="ghost" size="md" data-action="org-close">Cerrar</Button>
+                  <Button variant="tech" size="md" data-action="org-undo">Deshacer última</Button>
+                  <Button variant="danger" size="md" data-action="org-reset">Reiniciar evento</Button>
+                </div>
+                <p class="org__hint">
+                  Reiniciar borra TODAS las inversiones del evento en la base de datos
+                  (no sólo las de esta pantalla) y vuelve a 0 HM.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Aviso de base de datos ────────────────────────────────
+             Aparece sólo si Supabase no responde. Sin base de datos el
+             panel de inversión queda bloqueado: es preferible a perder
+             la inversión de un visitante sin avisarle. -->
+        <div class="db-notice" data-db-notice hidden role="alert" aria-live="assertive">
+          <div class="db-notice__card hud-panel hud-corners">
+            <p class="db-notice__icon" aria-hidden="true">⚠️</p>
+            <h3 class="db-notice__title">SIN CONEXIÓN CON LA BASE DE DATOS</h3>
+            <p class="db-notice__body" data-db-notice-text></p>
+            <p class="db-notice__hint">
+              Comprueba que <code>.env</code> define <code>PUBLIC_SUPABASE_URL</code> y
+              <code>PUBLIC_SUPABASE_ANON_KEY</code>, y que la migración
+              <code>supabase/migrations/0001_init.sql</code> esté aplicada en el proyecto.
+            </p>
+            <Button variant="primary" size="md" data-action="db-retry">Reintentar conexión</Button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      import '../scripts/game';
+    </script>
+  </body>
+</html>
+
+<style>
+  .absolute {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* ── Aviso de base de datos ─────────────────────────────────────── */
+  .db-notice {
+    position: absolute;
+    inset: 0;
+    z-index: 90;
+    display: grid;
+    place-items: center;
+    background: rgb(8 12 10 / 0.82);
+    backdrop-filter: blur(6px);
+  }
+
+  .db-notice[hidden] {
+    display: none;
+  }
+
+  .db-notice__card {
+    width: 720px;
+    padding: 40px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .db-notice__icon {
+    font-size: 46px;
+    line-height: 1;
+  }
+
+  .db-notice__title {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--hm-gold-300, #f4d681);
+  }
+
+  .db-notice__body {
+    font-size: 19px;
+    color: rgb(255 255 255 / 0.9);
+  }
+
+  .db-notice__hint {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.55);
+    max-width: 56ch;
+  }
+
+  .db-notice__hint code {
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgb(255 255 255 / 0.1);
+    color: rgb(255 255 255 / 0.85);
+  }
+
+  /* Halo de fondo del escenario: luz cenital tipo stand. */
+  .stage-sky {
+    background:
+      radial-gradient(46% 34% at 50% 30%, rgb(69 167 95 / 0.14) 0%, transparent 70%),
+      radial-gradient(30% 26% at 82% 66%, rgb(85 166 198 / 0.1) 0%, transparent 72%),
+      radial-gradient(28% 24% at 16% 70%, rgb(165 131 224 / 0.09) 0%, transparent 72%);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     ESCENA — Brissa + comedero + HUD
+     ═══════════════════════════════════════════════════════════════════ */
+  .scene {
+    position: relative;
+    display: grid;
+    grid-template-columns: 420px minmax(0, 1fr) 372px;
+    align-items: center;
+    gap: 20px;
+    padding: 0 46px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .scene__left,
+  .scene__center,
+  .scene__side {
+    display: grid;
+    align-content: center;
+  }
+
+  .scene__left {
+    justify-items: center;
+  }
+
+  .scene__brissa {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+  }
+
+  .scene__nameplate {
+    display: grid;
+    justify-items: center;
+    gap: 1px;
+    padding: 6px 22px 7px;
+    border-radius: 999px;
+    background: rgb(6 20 15 / 0.72);
+    border: 1px solid rgb(165 131 224 / 0.35);
+    box-shadow: 0 0 26px -10px rgb(125 85 196 / 0.9);
+  }
+
+  .scene__nameplate b {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 0.28em;
+    color: var(--color-hm-purple-200);
+  }
+
+  .scene__nameplate i {
+    font-style: normal;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-400);
+  }
+
+  .scene__tip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-hm-ink-200);
+    background: rgb(6 20 15 / 0.6);
+    border: 1px solid rgb(139 161 147 / 0.16);
+    animation: anim-tilt-hint 2.4s ease-in-out infinite;
+    white-space: nowrap;
+  }
+
+  .scene__tip-arrow {
+    font-size: 14px;
+  }
+
+  .scene__center {
+    justify-items: center;
+    gap: 8px;
+  }
+
+  .scene__side {
+    gap: 16px;
+    align-content: center;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     CONSOLA DE INVERSIÓN
+     ═══════════════════════════════════════════════════════════════════ */
+  .console {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 286px;
+    align-items: end;
+    gap: 22px;
+    padding: 0 46px 16px;
+  }
+
+  .console__panel {
+    min-width: 0;
+  }
+
+  .console__meta {
+    display: grid;
+    gap: 12px;
+    padding-bottom: 10px;
+  }
+
+  .console__quote {
+    margin: 0;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-hm-ink-200);
+    border-left: 3px solid rgb(216 160 41 / 0.5);
+    padding-left: 14px;
+  }
+
+  .console__note {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--color-hm-ink-300);
+  }
+
+  .console__keys {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-500);
+  }
+
+  .console__keys kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    margin: 0 1px;
+    border-radius: 5px;
+    background: rgb(16 29 25 / 0.9);
+    border: 1px solid rgb(139 161 147 / 0.28);
+    box-shadow: inset 0 -1px 0 0 rgb(0 0 0 / 0.5);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-hm-ink-100);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     PIEZAS DE HUD
+     ═══════════════════════════════════════════════════════════════════ */
+
+  .demo {
+    position: absolute;
+    left: 50%;
+    top: 92px;
+    translate: -50% 0;
+    z-index: 46;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 16px;
+    background: rgb(35 22 64 / 0.82);
+    border: 1px solid rgb(165 131 224 / 0.4);
+    box-shadow: 0 0 30px -12px rgb(125 85 196 / 0.9);
+  }
+
+  .demo[hidden] {
+    display: none;
+  }
+
+  .demo__label {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--color-hm-purple-200);
+  }
+
+  .demo__hint {
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-400);
+  }
+
+  .demo__btn {
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--color-hm-ink-50);
+    background: linear-gradient(180deg, #5d3a9c 0%, #33205a 100%);
+    border: 1px solid rgb(165 131 224 / 0.4);
+    transition: transform 120ms ease;
+  }
+
+  .demo__btn:hover {
+    filter: brightness(1.15);
+  }
+
+  .demo__btn:active {
+    transform: translateY(2px);
+  }
+
+  /* Indicador de reinicio: sólo aparece mientras se mantiene la tecla. */
+  .hold {
+    position: absolute;
+    right: 26px;
+    top: 26px;
+    z-index: 68;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px 10px 10px;
+    border-radius: 999px;
+    background: rgb(42 29 16 / 0.9);
+    border: 1px solid rgb(216 160 41 / 0.5);
+    box-shadow: 0 0 34px -12px rgb(216 160 41 / 0.9);
+  }
+
+  .hold[data-active='true'] {
+    display: flex;
+  }
+
+  .hold__ring {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background:
+      conic-gradient(var(--color-hm-gold-300) calc(var(--hold, 0) * 360deg), rgb(139 161 147 / 0.18) 0);
+  }
+
+  .hold__ring::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: #2a1d10;
+  }
+
+  .hold__label {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-hm-gold-200);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     MODO ORGANIZACIÓN
+     ═══════════════════════════════════════════════════════════════════ */
+  .org {
+    display: grid;
+    gap: 16px;
+    min-width: 560px;
+    padding: 36px 44px 32px;
+    text-align: center;
+  }
+
+  /* Qué vista del panel se muestra la decide el controlador. */
+  .org[data-view='password'] .org__view[data-view='panel'] {
+    display: none;
+  }
+
+  .org[data-view='panel'] .org__view[data-view='password'] {
+    display: none;
+  }
+
+  .org__view {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    animation: hm-float-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .org__view[hidden] {
+    display: none;
+  }
+
+  .org__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-100);
+  }
+
+  .org__sub {
+    margin: 0;
+    font-size: 15px;
+    color: var(--color-hm-ink-300);
+    max-width: 42ch;
+  }
+
+  .org__input {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.3em;
+    color: var(--color-hm-green-100);
+    background: rgb(4 18 13 / 0.8);
+    border: 1px solid rgb(139 161 147 / 0.3);
+  }
+
+  .org__input:focus {
+    outline: none;
+    border-color: rgb(234 191 78 / 0.8);
+    box-shadow: 0 0 0 4px rgb(216 160 41 / 0.15);
+  }
+
+  .org__input.is-wrong {
+    border-color: #e07a6c;
+    animation: hm-shake 320ms ease;
+  }
+
+  .org__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  .org__hint {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--color-hm-ink-500);
+    max-width: 46ch;
+  }
+</style>

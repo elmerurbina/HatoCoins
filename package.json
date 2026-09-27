@@ -1,0 +1,32 @@
+{
+  "name": "hatocoins",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HatoCoins — Alimenta a Brissa. Experiencia interactiva de evento para HatoMaster.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "typecheck": "tsc --noEmit",
+    "test": "esbuild tests/logic.test.ts --bundle --format=esm --platform=node --outfile=node_modules/.cache/hatomaster-test.mjs --log-level=error && node node_modules/.cache/hatomaster-test.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "astro": "^5.14.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@tailwindcss/vite": "^4.1.14",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.3"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.27.7": true,
+    "sharp@0.34.5": true
+  }
+}

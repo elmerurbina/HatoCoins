@@ -1,0 +1,175 @@
+---
+import { CATEGORIES, emptyCategoryTotals } from '../../lib/config';
+import { breakdownRows } from '../../lib/investments';
+
+/**
+ * InvestmentBreakdown — "¿dónde está invirtiendo la comunidad?"
+ * Se presenta como HUD de videojuego, no como dashboard.
+ */
+const rows = breakdownRows(emptyCategoryTotals(), CATEGORIES, 0);
+---
+
+<section class="bd hud-panel hud-panel--tech" data-breakdown aria-label="Distribución de la inversión">
+  <header class="bd__head">
+    <span class="bd__pip" aria-hidden="true"></span>
+    <h3 class="hud-label">¿DÓNDE ESTÁ INVIRTIENDO LA COMUNIDAD?</h3>
+  </header>
+
+  <ul class="bd__list">
+    {
+      rows.map((row) => (
+        <li class="bd__row" data-breakdown-row={row.category}>
+          <span class="bd__emoji" aria-hidden="true">
+            {row.emoji}
+          </span>
+          <span class="bd__name">{row.shortLabel}</span>
+          <span class="bd__track">
+            <span class:list={['bd__bar', `bd__bar--${row.category}`]} data-breakdown-bar />
+          </span>
+          <span class="bd__value" data-breakdown-value>
+            0
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <footer class="bd__foot">
+    <span data-breakdown-total>0 HM</span>
+    <span class="bd__foot-sep" aria-hidden="true">·</span>
+    <span data-breakdown-count>0 inversiones</span>
+  </footer>
+</section>
+
+<style>
+  .bd {
+    display: grid;
+    gap: 14px;
+    padding: 20px 22px 18px;
+  }
+
+  .bd__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bd__pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--color-hm-blue-300);
+    box-shadow: 0 0 12px var(--color-hm-blue-300);
+  }
+
+  .bd__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+  }
+
+  .bd__row {
+    display: grid;
+    grid-template-columns: 26px 74px 1fr auto;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bd__emoji {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .bd__name {
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-200);
+    white-space: nowrap;
+  }
+
+  .bd__track {
+    position: relative;
+    height: 12px;
+    border-radius: 999px;
+    background: rgb(7 23 35 / 0.8);
+    box-shadow: inset 0 1px 4px 0 rgb(0 0 0 / 0.8);
+    overflow: hidden;
+  }
+
+  .bd__track::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 9px,
+      rgb(7 23 35 / 0.85) 9px 10px
+    );
+    pointer-events: none;
+  }
+
+  .bd__bar {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    transition: width 620ms cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 12px -2px currentColor;
+  }
+
+  .bd__bar--ganaderia {
+    background: linear-gradient(90deg, #2a8248, #7fca8d);
+    color: #45a75f;
+  }
+  .bd__bar--ia {
+    background: linear-gradient(90deg, #5d3a9c, #a583e0);
+    color: #7d55c4;
+  }
+  .bd__bar--datos {
+    background: linear-gradient(90deg, #1a5d7d, #8ec9dd);
+    color: #55a6c6;
+  }
+  .bd__bar--offline {
+    background: linear-gradient(90deg, #6d4a28, #dcc094);
+    color: #c8a06a;
+  }
+  .bd__bar--rural {
+    background: linear-gradient(90deg, #8f6114, #f4d681);
+    color: #d6a029;
+  }
+
+  .bd__value {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-hm-blue-100);
+    font-variant-numeric: tabular-nums;
+    min-width: 68px;
+    text-align: right;
+  }
+
+  .bd__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid rgb(85 166 198 / 0.18);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-400);
+  }
+
+  .bd__foot span:first-child {
+    color: var(--color-hm-blue-200);
+  }
+
+  .bd__foot-sep {
+    opacity: 0.5;
+  }
+</style>

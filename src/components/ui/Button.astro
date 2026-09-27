@@ -1,0 +1,189 @@
+---
+/**
+ * Button — botón base del juego.
+ * `variant`: primary | gold | ghost | tech | danger
+ */
+export interface Props {
+  variant?: 'primary' | 'gold' | 'ghost' | 'tech' | 'danger';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  type?: 'button' | 'submit';
+  disabled?: boolean;
+  class?: string;
+  id?: string;
+  title?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  disabled = false,
+  class: className = '',
+  id,
+  title,
+  ...rest
+} = Astro.props;
+---
+
+<button
+  id={id}
+  type={type}
+  title={title}
+  disabled={disabled}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  {...rest}
+>
+  <span class="btn__sheen" aria-hidden="true"></span>
+  <span class="btn__label"><slot /></span>
+</button>
+
+<style>
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 18px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-hm-ink-50);
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+      transform 120ms cubic-bezier(0.3, 0, 0.2, 1),
+      box-shadow 200ms ease,
+      filter 200ms ease;
+    will-change: transform;
+  }
+
+  .btn:not(:disabled):hover {
+    filter: brightness(1.08);
+  }
+
+  .btn:not(:disabled):active {
+    transform: translateY(3px) scale(0.985);
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .btn__label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn__sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.16) 0%, transparent 48%);
+    pointer-events: none;
+  }
+
+  .btn:not(:disabled):hover .btn__sheen {
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.24) 0%,
+      transparent 52%
+    );
+  }
+
+  /* ── Tamaños ──────────────────────────────────────────────────────── */
+  .btn--sm {
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+  .btn--md {
+    padding: 15px 28px;
+    font-size: 17px;
+  }
+  .btn--lg {
+    padding: 15px 30px;
+    font-size: 18px;
+  }
+  .btn--xl {
+    padding: 19px 44px;
+    font-size: 23px;
+    border-radius: 19px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Variantes ────────────────────────────────────────────────────── */
+  .btn--primary {
+    background: linear-gradient(180deg, #2a8248 0%, #164a2c 100%);
+    border: 1px solid rgb(127 202 141 / 0.4);
+    box-shadow:
+      inset 0 1px 0 0 rgb(233 245 236 / 0.22),
+      0 4px 0 0 #0b2419,
+      0 14px 30px -12px rgb(0 0 0 / 0.8);
+  }
+  .btn--primary:not(:disabled):active {
+    box-shadow:
+      inset 0 1px 0 0 rgb(233 245 236 / 0.22),
+      0 1px 0 0 #0b2419,
+      0 6px 16px -10px rgb(0 0 0 / 0.8);
+  }
+
+  .btn--gold {
+    color: var(--color-hm-ink-950);
+    background: linear-gradient(180deg, #fbe9b4 0%, #eabf4e 44%, #b57f1a 100%);
+    border: 1px solid rgb(253 245 218 / 0.6);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.55),
+      0 4px 0 0 #8f6114,
+      0 16px 36px -12px rgb(180 120 20 / 0.8),
+      0 0 40px -10px rgb(216 160 41 / 0.6);
+  }
+  .btn--gold:not(:disabled):active {
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.4),
+      0 1px 0 0 #8f6114,
+      0 8px 20px -12px rgb(180 120 20 / 0.8);
+  }
+
+  .btn--tech {
+    background: linear-gradient(180deg, #2a7fa3 0%, #13455f 100%);
+    border: 1px solid rgb(85 166 198 / 0.4);
+    box-shadow:
+      inset 0 1px 0 0 rgb(201 230 239 / 0.22),
+      0 4px 0 0 #071723,
+      0 14px 30px -12px rgb(0 0 0 / 0.8);
+  }
+  .btn--tech:not(:disabled):active {
+    box-shadow:
+      inset 0 1px 0 0 rgb(201 230 239 / 0.22),
+      0 1px 0 0 #071723,
+      0 6px 16px -10px rgb(0 0 0 / 0.8);
+  }
+
+  .btn--ghost {
+    background: rgb(16 29 25 / 0.6);
+    border: 1px solid rgb(139 161 147 / 0.28);
+    color: var(--color-hm-ink-100);
+    box-shadow: inset 0 1px 0 0 rgb(233 245 236 / 0.08);
+  }
+  .btn--ghost:not(:disabled):active {
+    box-shadow: inset 0 2px 6px 0 rgb(0 0 0 / 0.6);
+  }
+
+  .btn--danger {
+    background: linear-gradient(180deg, #a8443a 0%, #6d2a24 100%);
+    border: 1px solid rgb(224 122 108 / 0.45);
+    box-shadow:
+      inset 0 1px 0 0 rgb(240 192 179 / 0.24),
+      0 4px 0 0 #3d1613;
+  }
+  .btn--danger:not(:disabled):active {
+    box-shadow: inset 0 2px 6px 0 rgb(0 0 0 / 0.6);
+  }
+</style>

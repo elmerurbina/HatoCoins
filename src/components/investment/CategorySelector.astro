@@ -1,0 +1,158 @@
+---
+import { CATEGORIES, COPY } from '../../lib/config';
+---
+
+<div class="cats" role="group" aria-label="Destino de la inversión">
+  <ul class="cats__grid">
+    {
+      CATEGORIES.map((cat) => (
+        <li>
+          <button
+            type="button"
+            class:list={['cat', `cat--${cat.id}`]}
+            data-category={cat.id}
+            data-action="category"
+            aria-pressed="false"
+          >
+            <span class="cat__emoji" aria-hidden="true">
+              {cat.emoji}
+            </span>
+            <span class:list={['cat__label', cat.accent]}>{cat.label}</span>
+            <span class="cat__blurb">{cat.blurb}</span>
+            <span class="cat__glow" aria-hidden="true" />
+          </button>
+        </li>
+      ))
+    }
+    <li>
+      <button
+        type="button"
+        class="cat cat--none"
+        data-category="none"
+        data-action="category-none"
+        aria-pressed="false"
+      >
+        <span class="cat__emoji" aria-hidden="true">🪙</span>
+        <span class="cat__label text-hm-ink-100">{COPY.skipCategory}</span>
+        <span class="cat__blurb">Apoyo general al proyecto.</span>
+        <span class="cat__glow" aria-hidden="true" />
+      </button>
+    </li>
+  </ul>
+</div>
+
+<style>
+  .cats {
+    width: 100%;
+  }
+
+  .cats__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .cat {
+    position: relative;
+    width: 100%;
+    display: grid;
+    gap: 5px;
+    padding: 18px 20px 20px;
+    border-radius: 20px;
+    text-align: left;
+    overflow: hidden;
+    background: linear-gradient(170deg, #182a24 0%, #0a1411 100%);
+    border: 1px solid rgb(139 161 147 / 0.18);
+    box-shadow:
+      inset 0 1px 0 0 rgb(233 245 236 / 0.07),
+      0 3px 0 0 rgb(4 18 13 / 0.9),
+      0 14px 28px -16px rgb(0 0 0 / 0.9);
+    transition:
+      transform 120ms cubic-bezier(0.3, 0, 0.2, 1),
+      border-color 200ms ease,
+      filter 200ms ease;
+  }
+
+  .cat:hover {
+    filter: brightness(1.12);
+    border-color: rgb(139 161 147 / 0.4);
+  }
+
+  .cat:active {
+    transform: translateY(3px);
+  }
+
+  .cat.is-selected {
+    border-color: rgb(234 191 78 / 0.85);
+    box-shadow:
+      inset 0 1px 0 0 rgb(253 245 218 / 0.14),
+      0 0 0 3px rgb(216 160 41 / 0.2),
+      0 0 36px -8px rgb(216 160 41 / 0.7);
+  }
+
+  .cat__emoji {
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  .cat__label {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+  }
+
+  .cat__blurb {
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-hm-ink-400);
+  }
+
+  .cat__glow {
+    position: absolute;
+    inset: auto -30% -60% -30%;
+    height: 120%;
+    background: radial-gradient(50% 50% at 50% 100%, rgb(216 160 41 / 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 240ms ease;
+    pointer-events: none;
+  }
+
+  .cat.is-selected .cat__glow {
+    opacity: 1;
+  }
+
+  /* ── Acentos por categoría ────────────────────────────────────────── */
+  .cat--ganaderia.is-selected {
+    border-color: rgb(69 167 95 / 0.9);
+  }
+  .cat--ia.is-selected {
+    border-color: rgb(165 131 224 / 0.9);
+  }
+  .cat--ia.is-selected .cat__glow {
+    background: radial-gradient(50% 50% at 50% 100%, rgb(165 131 224 / 0.28) 0%, transparent 70%);
+  }
+  .cat--datos.is-selected {
+    border-color: rgb(85 166 198 / 0.9);
+  }
+  .cat--datos.is-selected .cat__glow {
+    background: radial-gradient(50% 50% at 50% 100%, rgb(85 166 198 / 0.28) 0%, transparent 70%);
+  }
+  .cat--offline.is-selected {
+    border-color: rgb(220 192 148 / 0.9);
+  }
+  .cat--offline.is-selected .cat__glow {
+    background: radial-gradient(50% 50% at 50% 100%, rgb(220 192 148 / 0.26) 0%, transparent 70%);
+  }
+  .cat--rural.is-selected {
+    border-color: rgb(244 214 129 / 0.9);
+  }
+  .cat--ganaderia.is-selected .cat__glow {
+    background: radial-gradient(50% 50% at 50% 100%, rgb(69 167 95 / 0.3) 0%, transparent 70%);
+  }
+</style>
